@@ -78,6 +78,55 @@
 > Checa esta imagen de referencia. 
 ![Compilacion_ejecucion_go](./info/Compilacion_ejecucion_go.png)
 
+## Clase 7: Como podemos declarar variables  
+
+**Constantes**
+```
+	//Como declarar variables constantes 
+	const  pi float64 = 3.14
+	const  pi2 = 3.14 
+
+``` 
+
+**Enteras**
+```
+	//como declarar variables enteras 
+	base := 12 
+	var altura int = 14
+	var area int  
+``` 
+
+**Zero values**
+```
+	//Zero values
+	//Go asigna vaalores a variables vacías
+	var a int
+	var b float64
+	var c string
+	var d bool
+
+    //Salida -> 0 0 ' ' false
+``` 
+**Notas:**
+- En go cada variable declarada debe usarse esto es para evitar variables que no se usen, todo con el proposito de ahorrar memoria 
+- Go asigna valores a variables vacías
+
+```
+func main() {
+	primeraForma := 1 //Bastante Parecida a Python
+    	var segundaForma = 2 //Como en JavaScript
+	var terceraForma int16 = 3 // Parecido a C++
+}
+```
+
+**Zero Values**
+>Algo que se debe tomar en cuenta en GO es que si no especificas el valor de tu constante o variable a diferencia de otros lenguajes que le asignan un valor null, GO le dara los valores por Default.
+
+**Valores por Default:**
+- int y sus derivados(int8,int16,uint,etc.) : 0
+- float32 y float64 : 0
+- string : Un string vacio: " "
+- bool : False
 
 ## Clase 5: 
 ## Clase 6: 
