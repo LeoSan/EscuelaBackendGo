@@ -128,5 +128,203 @@ func main() {
 - string : Un string vacio: " "
 - bool : False
 
-## Clase 5: 
-## Clase 6: 
+## Clase 8: Operadores aritméticos
+> Las operaciones se hacen clásicamente. + para suma, - para resta, * para multiplicación, / para división y % para módulo, También a tener en cuenta, que en python, una división, sea cuál sea el resultado, lo convierte en un flotante, en Go no.
+
+**Ejemplo**
+```
+
+	x := 10
+	y := 50
+	//Suma
+	result := x + y
+	fmt.Println("Suma:", result)
+
+	//Resta
+	result = y - x
+	fmt.Println("Resta:", result)
+
+	//Multiplicacion
+	result = x * y
+	fmt.Println("Multiplicació:", result)
+
+	//División
+	result = y / x
+	fmt.Println("División:", result)
+
+	//Modulo
+	result = y % x
+	fmt.Println("Modulo:", result)
+
+	//Incremental
+	x++
+	fmt.Println("Incremetal:", x)
+
+	//Decremental
+	x--
+	fmt.Println("Decremental:", x)	
+
+	//Area de un rectangulo, trapecio y de un circulo
+	//Rectangulo
+	a := 4
+	b := 3
+	areaRectangulo := a * b
+	fmt.Println("Área de un rectángulo:", areaRectangulo)
+
+	//Trapecio
+	a = 5
+	b = 8
+	areaTrapecio := (5 + 8) / 2
+	fmt.Println("Área de un trapecio:", areaTrapecio)
+
+	//Circulo
+	diametro := 5
+	pi := math.Pi
+	diametroCuadrado := math.Pow(float64(diametro), 2)
+	areaCirculo := (pi * diametroCuadrado) / 4
+	fmt.Println("Área de un circulo:", math.Round(areaCirculo*100)/100)
+```
+
+## Clase 9: Tipos de datos primitivos
+
+> Al codificar en Go podemos especificar el tipo de dato, permitiéndonos ganar gran preformas en nuestro código
+
+**Números Enteros**
+> int Cuando no se declara el tamaño tomara la referencia del OS (Sistema operativo) (32 o 64 bits)
+
+- int8 8bits ⇒ -128 a 127
+- int16 16bits ⇒ -2^15 a 2^15-1
+- int32 32bits ⇒ -2^31 a 2^31-1
+- int64 64bits ⇒ -2^63 a 2^63-1
+
+**Optimizar memoria cuando sabemos que el dato siempre va ser positivo**
+
+- uint ⇒ Depende del OS (32 o 64 bits)
+- uint8 ⇒ 8bits = 0 a 127
+- uint16 ⇒ 16bits = 0 a 2^15-1
+- uint32 ⇒ 32bits = 0 a 2^31-1
+- uint64 ⇒ 64bits = 0 a 2^63-1
+
+**Números decimales**
+- float32 ⇒ 32 bits = +/- 1.18e^-38 +/- -3.4e^38
+- float64 ⇒ 64 bits = +/- 2.23e^-308 +/- -1.8e^308
+
+**Textos y booleanos**
+A diferencia de otros lenguajes de programación donde para definir una variable de tipo string es permitido utilizar “”, ‘’ o ```` en Go solo podemos utilizar las comillas dobles ""
+
+**boolean ⇒ Trueo False**
+
+**Números complejos**
+- Complex64 ⇒ Real e Imaginario float32
+- Complex128 ⇒ Real e Imaginario float64
+
+**Ejemplo //Data Types**
+
+```
+	var shortInt int8 = 3
+	var longInt int64 = 2313212113234256876
+	var shortFloat float32 = 3.1
+	var longFloat float64 = 3.153465212456432145668723312
+	var text string = "string"
+	var boolean bool = true
+	var complex complex128 = 10 + 8i
+```	
+
+>PD: Marca la diferencia si definimos el tipo de dato ya que esto permite tener un código mucho mas rapido y eficiente. 
+
+## Clase 10: Paquete fmt: algo más que imprimir en consola
+> El paquete fmt es el que se encarga de administrar los inputs y outputs de la terminal.
+>
+
+**Tipos de Print:**
+- Println: Es un print normal con un salto de linea al final. Ejemplo:
+```
+fmt.Println("Hola Mundo")
+```
+
+- Printf: Es un print al cual le puedes especificar el tipo de objeto que le vas a dar. Ejemplo:
+```
+fmt.Printf("%s tiene más de %d cursos\n", nombre, cursos)
+fmt.Printf("%v tiene más de %v cursos\n", nombre, cursos) // Se agrega %v cuando no sabes el tipo de dato
+```
+- Sprintf: No imprime nada en consola, simplemente lo guarda como un String. Ejemplo de uso:
+```
+var message string = fmt.Sprintf("%v tiene más de %v cursos\n", nombre, cursos)
+fmt.Println(message)
+```
+
+- Printf: Con este paquete podemos imprimir en consola el tipo de dato de variables o constantes. Ejemplo de uso:
+```
+package main
+
+import "fmt"
+
+func main() {
+
+	const nombre string = "UltiRequiem"
+
+	fmt.Printf("La variable 'nombre' es de tipo : %T\n", nombre)
+}
+```
+>PD-> %s = significa que el valor sera un String - %d = significa que el valor sera un entero  int - %T = identificar el tipo de datof
+
+**Mas Formatos**
+- https://gobyexample.com/string-formatting  
+- https://pkg.go.dev/fmt
+
+## Clse 11 : Uso de funciones
+
+>Notas: 
+- La palabra reservada es `func`
+- Es importante que se usa camelCase por lo que debes siempre poner mayuscula
+- Puedes reciclar la declaración de variables en la función `tArea(higher , less, size int)`
+- Debemos especificar el tipo de valor que va retornar `tArea(higher , less, size int) int`
+- Podemos retornar dos parametros ejemplo  `doubleReturn(higher , less, size int) (a, b int)`
+- Como podemos recibirlos ejemplo  `value1, value2 := doubleReturn(2)`
+- Usando piso ayuda a descartar cuando desea validar cual retornar `value1, _ := doubleReturn(2)`
+
+```
+package main
+
+import "fmt"
+
+func rArea(base , height int)int {
+	return base * height
+}
+
+func tArea(higher , less, size int)int {
+	return (higher + less) * size / 2
+}
+
+func cArea(radio, pi float64)float64 {
+	return (radio * radio) * pi
+}
+
+func dobleReturn(a1, b1 int)(z, i int){
+	var xx int = a1 + b1
+	var yy int = a1 * b1
+	return xx, yy
+}
+
+funcmain() {
+	base := 80
+	height := 40
+	fmt.Println("Area del rectangulo: ", rArea(base, height))
+
+	higher := 90
+	less := 45
+	size := 55
+	fmt.Println("Area del trapecio: ", tArea(higher, less, size))
+
+	radio := 45.5
+	const pi = 3.14
+	fmt.Println("Area del circulo: ", cArea(radio, pi))
+
+	resultA, resultB :=dobleReturn(12, 12)
+	fmt.Printf(" Resultado A = %d , Resultado B : %d ", resultA, resultB)		
+}
+```
+
+## Clase 12 : Go doc: La forma de ver documentación
+
+> Podemos usar la documentación de goland `https://pkg.go.dev/`
