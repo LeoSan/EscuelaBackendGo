@@ -121,4 +121,51 @@ func main() {
 	resultA, resultB :=dobleReturn(12, 12)
 	fmt.Printf(" Resultado A = %d , Resultado B : %d ", resultA, resultB)	
 
+	fmt.Printf("\n")	
+	fmt.Println("----------------Condicionales--------------------")	
+	valorA := 1
+
+	if valorA == 1 {
+		fmt.Println("Es 1")	
+	}else{
+		fmt.Println("No es 1")	
+	}
+
+	fmt.Printf("\n")	
+	fmt.Println("----------------Switch without a condition--------------------")	
+
+	//Switch without a condition
+	value := 50
+	switch {
+	case value < 0:
+		fmt.Println("Value is smaller than zero")
+	case value > 100:
+		fmt.Println("Value is greater than 100")
+	default:
+		fmt.Println("Value is between 0 and 100")
+	}
+
+	fmt.Printf("\n")	
+	fmt.Println("----------------If using a variable is recommended to do this--------------------")	
+	switch auxiliar2 := 10; auxiliar2 {
+	case 5:
+		fmt.Println("Value is 5")
+	case 10:
+		fmt.Println("Value is 10")
+	default:
+		fmt.Println("Unknown value")
+	}
+
+	fmt.Printf("\n")	
+	fmt.Println("----------------//structure of switch--------------------")	
+	auxiliar := 10
+	switch auxiliar {
+	case 5:
+		fmt.Println("Value is 5")
+	case 10:
+		fmt.Println("Value is 10")
+	default:
+		fmt.Println("Unknown value")
+	}
+
 }

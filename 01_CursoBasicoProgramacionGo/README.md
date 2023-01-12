@@ -328,3 +328,207 @@ funcmain() {
 ## Clase 12 : Go doc: La forma de ver documentación
 
 > Podemos usar la documentación de goland `https://pkg.go.dev/`
+## Clase 13 : El poder de los ciclos en Golang: for, for while y for forever
+
+> En Golang solo existe un ciclo for, pero este tiene tipos de variantes: 
+
+- For condicional
+
+```
+for i := 0; i<=10; i++ {
+	fmt.Println(i)
+}
+```
+
+- For while
+```
+counter := 0
+
+for counter < 10 {
+	fmt.Println(counter)
+	counter++
+}
+```
+
+
+- For forever
+```
+	counterForever := 0
+	for {
+		fmt.Println(counterForever)
+		counterForever++
+		if counterForever > 12 {
+			break
+		}
+	}
+```
+
+- For Range
+``` 
+	arreglo := [8]int{0, 1, 4, 6, 10, 9}
+	fmt.Println("Arreglo:", arreglo)
+
+	fmt.Println("Primer ejemplo")
+	for i, j := range arreglo {
+		fmt.Printf("indice i: %d tiene como valor #%d\n", i, j)
+	}
+
+	fmt.Println("Segundo ejemplo")
+	for i := range arreglo {
+		fmt.Printf("Valor de i: %d\n", i)
+	}
+
+	fmt.Println("Tercer ejemplo")
+	for _, j := range arreglo {
+		fmt.Printf("Valor de i: %d\n", j)
+	}
+```	
+- For con funciones
+```
+for i := preFor(); condicion(i); i = postFor(i) {
+		fmt.Printf("Valor de i: %d", i)
+		if i == 7 {
+			fmt.Printf(" así que saldremos del ciclo...\n")
+			break /// este ejemplo es para usar el break
+		}
+		fmt.Printf("\n")
+	}
+```
+- For con goto tags
+```
+var i int
+CICLO:
+	fmt.Println("estamos fuera del for")
+	for i < 10 {
+		if i == 6 {
+			i = i + 3
+			fmt.Println("Saltando a etiqueta CICLO con i = i + 3")
+			goto CICLO2
+		}
+		fmt.Printf("Valor de i: %d\n", i)
+		i++
+	}
+CICLO2:
+	fmt.Printf("ciclo 2 Valor de i: %d\n", i)
+	if i == 9 {
+		fmt.Printf("Valor de i: %d\n", i)
+		i = i + 3
+		fmt.Println("Saltando a etiqueta CICLO con i = i + 3")
+		goto CICLO
+	}
+	fmt.Printf("terminamos\n")
+
+```
+## Clase 14 : Operadores lógicos y de comparación
+> Son operadores que nos permiten hacer una comparación de condiciones y en caso de cumplirse como sino ejecutarán un código determinado. Si se cumple es VERDADERO/TRUE y si no se cumple son FALSO/FALSE.
+
+>Nota: 
+- Como ves no se usan () parentesis para las condicionales ejemplo `if valor == 1 {}`
+
+
+```
+valor1 == valor2: Retorna TRUE si valor1 y valor2 son exactamente iguales.
+valor1 != valor2: Retorna TRUE si valor1 es diferente de valor2.
+valor1 < valor2: Retorna TRUE si valor1 es menor que valor2
+valor1 > valor2: Retorna TRUE si valor1 es mayor que valor2
+valor1 >= valor2: Retorna TRUE si valor1 es igual o mayor que valor2
+valor1 <= valor2: Retorna TRUE si valor1 es menor o igual que valor2.
+```
+
+- Convertir texto a entero -> https://pkg.go.dev/strconv
+
+## Clase 16 : Múltiple condiciones anidadas con Switch
+
+> Como bien sabemos es otra forma de manejar condicionales pero en este caso es mas ordenado y facil de leer en GOland podemos crear  tres tipos de Switch >
+
+- //structure of switch
+- //If using a variable is recommended to do this
+- //Switch without a condition
+
+```
+package main
+
+import "fmt"
+
+func main() {
+	//SWITCH
+
+	//structure of switch
+	auxiliar := 10
+	switch auxiliar {
+	case 5:
+		fmt.Println("Value is 5")
+	case 10:
+		fmt.Println("Value is 10")
+	default:
+		fmt.Println("Unknown value")
+	}
+
+	//If using a variable is recommended to do this
+
+	switch auxiliar2 := 10; auxiliar2 {
+	case 5:
+		fmt.Println("Value is 5")
+	case 10:
+		fmt.Println("Value is 10")
+	default:
+		fmt.Println("Unknown value")
+	}
+
+	//Switch without a condition
+	value := 50
+	switch {
+	case value < 0:
+		fmt.Println("Value is smaller than zero")
+	case value > 100:
+		fmt.Println("Value is greater than 100")
+	default:
+		fmt.Println("Value is between 0 and 100")
+	}
+
+}
+```
+
+## Clase 17 : El uso de los keywords defer, break y continue
+
+**keywords** `defer`
+- Es el keyword que va ejecutar la ultima función antes que todo muera. 
+- Como usarlo como practica, para cerrar conexiones de bases de datos ó cerrar un archivo leido
+- Solo se debe usar un defer por función 
+```
+package main
+
+import "fmt"
+
+func main() {
+   fmt.Println("Inicio")
+      for i := 0; i < 5; i++ {
+      defer fmt.Println(i)
+   }
+   fmt.Println("Fin")	
+}
+```
+
+**keywords** `continue y break`
+- Es usado en los ciclos con la habilidad de detener `break` o romper un ciclo o de continuar un ciloc `continue`
+
+```
+import"fmt"
+
+func main(){
+	// Continue y break
+	for i := 0; i < 10; i++{
+		fmt.Println(i)
+		if i == 4 {
+			fmt.Println("Es 4")
+			continue
+		}
+
+		// Break
+		if i == 4 {
+			fmt.Println("Break")
+			break
+		}
+	}
+} 
+``` 
