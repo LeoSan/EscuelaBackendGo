@@ -28,6 +28,7 @@
 - Un Gopher puede ganar $74k al año
 - Facilita ajustar sintaxis de forma nativa
 - Comunidad receptiva, contribuye y apoya.
+- Tenemos un compilar Online `https://go.dev/tour/moretypes/7`
 
 **¿Dónde se usa?**
 - Mercado Libre
@@ -72,7 +73,7 @@
 - Paso 5: vemos en consola en este caso el hola mundo. 
 
 **Otra Forma**
-- Podemos ejecutar el código sin compilar pero no es recomendable 
+- Podemos ejecutar el código sin compilar pero no es recomendable pero es mas rapido
 - `go run .\src\main.go`
 
 > Checa esta imagen de referencia. 
@@ -532,3 +533,279 @@ func main(){
 	}
 } 
 ``` 
+
+
+## Clase 18 : Arrays y Slices
+
+> Existen dos tipos para manejar vectores Arrays y slices 
+
+**Arrays**
+- No podemos agregar otro elementos 
+- Si podemos editar los valores de los elementos
+- podemos usar el método `len()` indicando tamaño actual del array
+- Podemos usar el método `cap()` indicando la capacidad máxima del array 
+
+
+```
+var array[4] int
+array[0] = 1
+array[1] = 2
+fmt.Println(array, len(array), cap(array))
+```
+
+**Slices**
+- Similar al arrays pero no se le indica la capacidad total 
+- podemos usar el método `len()` indicando tamaño actual del array
+- Podemos usar el método `cap()` indicando la capacidad máxima del array 
+- La ventaja de slice es que puede recibir indice y este nos puede imprimir por rango los valores del elemento
+- Por rango el primero es inclusivo y el segundo exclusivo 
+- Los Slice son mutables si podemos agregar elementos  
+- uso de propt`...` para agregar nuevos elementos en pocas palabras descompone 
+
+```
+slice := []int {0,12,3,4,5,6}
+//Métodos en el Slice 
+fmt.Println(slice, len(slice), cap(slice))
+fmt.Println(slice[0])
+fmt.Println(slice[:3])
+fmt.Println(slice[2:4])
+fmt.Println(slice[4:])
+
+//Agrego 
+slice = append(slice, 7)
+fmt.Println(slice)
+
+//Agrego lista 
+newSlice:= []int{8,9,10}
+slide = append(slice, newSlice...)
+
+```
+## Clase 19 : Recorrido de Slices con Range
+
+```
+package main
+
+import "fmt"
+
+func isPalindrome(input string) bool {
+	for i := 0; i < len(input)/2; i++ {
+		if input[i] != input[len(input)-i-1] {
+			return false
+		}
+	}
+	return true
+}
+
+func main() {
+	fmt.Println(isPalindrome("anna"))
+}
+
+// Pasar Mayusculas 
+
+package main
+
+import (
+	"fmt"
+	"strings"
+)
+
+func main() {
+
+	text := "Ama"
+
+	isPalindrome(text)
+}
+
+func isPalindrome(text string) {
+	var textReverse string
+	text = strings.ToLower(text)
+	for i := len(text) - 1; i >= 0; i-- {
+		textReverse += string(text[i])
+	}
+
+	if text == textReverse {
+		fmt.Println("Es palindromo")
+	} else {
+		fmt.Println("No es palindromo")
+	}
+
+}
+```
+
+## Clase 20: Llave valor con Maps
+> Los maps/hash son más eficientes según el caso de uso, si conoces el KEY siempre será más eficiente usar un MAP, debido a que el tiempo de acceso es EN PROMEDIO constante (O(1)) para todos los keys independientemente del tamaño del MAP.
+
+- Map son diccionarios en GO 
+- Se usa para manejar valores constantes 
+- Hay que tener cuidado con el recorrido ya que es concurrente se puede ejecutar de forma aleatoria 
+- Si solo necesitas iterar sobre un conjunto de elementos, siempre es mejor alternativa usar un Array.
+- Usa concurrencia de manera nativa 
+- Arrays y Hashes, son bastante similares en memoria, los hashes son en resumen un hack para crear arreglos en los que podemos definir un KEY distinto a un índice entero.
+
+- Este es un muy buen artículo para conocer más de los hashes, aunque usa Python para los ejemplos:
+
+https://www.interviewcake.com/concept/python/hash-map
+
+```
+//Declaración  1 Forma 
+temperature := map[string]int{
+		"Earth": 15,
+		"Mars":  -65,
+	}
+
+
+// Declaración forma 2 
+m:= make(map[string]int)
+m["Jose"] = 25
+m["Maria"] = 20
+
+fmt.Println(m)
+
+for i, v := range m{
+	fmt.Println(i,v)
+}
+
+//Encotrar vaor 
+
+value, ok := m[Josep]
+fmt.Println(value, ok)
+
+```
+## Clase 21: Structs: La forma de hacer clases en Go
+
+> Es una manera de generar `Clases` solo que un tantito diferente usamos la palabra reservada `Structs`
+
+**Recordando un poco el significado de OOP:**
+
+- Recordemos que los structs que creemos son moldes, como por ejemplo cada coche tiene una marca, tiene un color, tiene un año etc.
+
+- Dentro del molde está el pastel y cada pastel va a ser diferente, o de manera más técnica, cada instance será diferente. Al final la clase/struct es la misma, tendremos un molde de un coche y cambiará dependiendo de las variables que mandemos.
+
+**OOP es state y behaviour:**
+- state: Son los datos
+- behaviour: Son los métodos que podemos poner dentro de una clase
+
+**Caracteristicas**
+- Muy Parecido a C 
+- Muy parecido a JavaScript 
+
+**Ejemplo**
+```
+package main
+
+import "fmt"
+
+type car struct {
+	brand   string
+	year    int
+	seating int
+	color   string
+	owner   string
+}
+
+func main() {
+	//Forma 1 de instanciar 
+	myCar := car{brand: "Toyota", year: 2018, seating: 10, color: "Rojo", owner: "Eliaz Bobadilla"}
+	fmt.Println("Los Datos de mi auto son:", myCar)
+
+	//Forma Dos de instanciar 
+	var otherCar car
+	otherCar.brand = "Ferrari";
+	otherCar.year  = 2023;
+
+	fmt.Println("Los Datos de mi otro auto son:", otherCar)
+}
+```
+## Clase 22: Modificadores de acceso en funciones y Structs
+
+
+**Características**
+- Podemos definir la variables como privada o publicas si colocamos la letra del atributo en Mayusculas ó minusculas, 
+- Mayusculas -> Public
+- Minusculas -> Privada
+- Cuando definimos estructura `struct` Go nos indica que a fuerza debemos colocar un comentario esta sintaxis es ` // CarPublic `
+- Podemos crear un mod con este comando `go mod init nombreModulo`
+
+**Nota**
+- No pude resolver esto ya que me muestra error `$ go run main.go
+main.go:10:5: package basico/src/mypackage is not in GOROOT (C:\Program Files\Go\src\basico\src\mypackage)`
+- No reonoce el path del paquete
+
+## Clase 23: Structs y Punteros
+
+**Características**
+- & -> Nos permite acceder a la dirección de memoria
+- * -> Nos permite acceder al valor 
+- Enlace ->  https://www.digitalocean.com/community/conceptual-articles/understanding-pointers-in-go-es
+```
+//ejemplo 
+
+a := 50
+b := &a
+
+fmt.Printiln(a) //-> Imprime a => 50
+fmt.Printiln(b) //-> Imprime la direccion de memoria => 0xc0000a6058 
+fmt.Printiln(*b) //-> Imprime el valor de la direccion de  memoria que almacena  => 50
+
+```
+
+
+## Clase 25: Interfaces y listas de interfaces
+> Es un metodo que puedas compartir diferentes otros metodos, el punto es crear un solo punto de entrada. 
+**Características**
+
+- Usamos la palabra reservada `interface` este puede encerrar un metodo ya creado
+- Recuerda solo toma en su estrctura una función ya creada 
+
+```
+type figure2D interface {
+	getArea() float64
+}
+
+
+func (s square) getArea() float64 {
+	return s.base * s.base
+}
+
+```
+
+## Clase 27: ¿Qué es la concurrencia?
+
+`
+Concurrencia te permite estar pendiente de varios procesos, comienzas uno, empiezas otro, ves si el anterior ya terminó, luego crear otro así
+
+El paralelismo, es usar varios hilos del procesador para hacer varios procesos a la vez, pero siempre estas esperando que la tarea termine.
+`
+
+**Notas**
+- La concurrencia está alineando con múltiples cosas al mismo tiempo mientras que el paralelismo está haciendo múltiples cosas al mismo tiempo.
+- En la concurrencia en Go podemos invocarla usando la palabra reservada en go `go say("world")`
+
+![Ejemplo Concurrencia](../info/goland_1.png)
+
+
+## Clase 28-29: Channels: La forma de organizar las goroutines
+
+> Usamos Channels para poder manejar los gorutines
+>
+
+**Características**
+- Te permite compartir datos con los gorutines 
+- Goroutines sería útil a la hora de procesar documentos o imágenes.
+- Solo maneja un tipo de datos 
+- se usa la palabra reservada make `c := make(chan int64, 1)` 
+- tenemos que usar un simbolo para ingresar un dato a ese canal `c <- int64(i)`
+- tenemos que usar un simbolo para salir un dato a ese canal `<-c`
+- Tenemos que usar el close en un canal luego de usarlo  si no se va usar de nuevo. 
+- `Range ` es ideal cuando deseas iterar en cada uno de los elementos de un channels 
+- `Select` -> Permite indicar cual goruntime va ejecutarse
+
+```
+//Salida de channels 
+func printTextOurCh(c <-chan string) {
+	fmt.Println(<-c)
+}
+```
+
+## Clase 30: 
+
