@@ -29,6 +29,8 @@
 - Facilita ajustar sintaxis de forma nativa
 - Comunidad receptiva, contribuye y apoya.
 - Tenemos un compilar Online `https://go.dev/tour/moretypes/7`
+- Es fuertemente tipado 
+
 
 **¿Dónde se usa?**
 - Mercado Libre
@@ -68,12 +70,13 @@
 **Como compilar y ejecutar GO**
 - Paso 1: recuerda que debes tener una estructura para trabajar src pkg bin, nuestro caso iniciaremos en src. 
 - Paso 2: nuestro proyecto debe quedar algo así nombreProyecto/src/main.go al igual que JAVA este también maneja un main como buena practica. 
-- Paso 3: luego de escribir el código base o inicial debemos ir a consola y ejecutar el siguiente comando `go build ./src/main.go` este compila y genera el exe 
-- Paso 4:  luego de validar que se creo el main.exe podemos ejecutarlo con el siguientes comando `./main`
-- Paso 5: vemos en consola en este caso el hola mundo. 
+- Paso 3: Luego de escribir el código base o inicial debemos ir a consola y ejecutar el siguiente comando `go build ./src/main.go` este compila y genera el exe 
+- Paso 4: Luego de validar que se creo el main.exe podemos ejecutarlo con el siguientes comando `./main`
+- Paso 5: Vemos en consola en este caso el hola mundo. 
 
 **Otra Forma**
 - Podemos ejecutar el código sin compilar pero no es recomendable pero es mas rapido
+- Este compila, ejecuta y elimina el código. 
 - `go run .\src\main.go`
 
 > Checa esta imagen de referencia. 
