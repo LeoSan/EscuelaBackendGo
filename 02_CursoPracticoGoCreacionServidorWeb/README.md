@@ -108,3 +108,45 @@ func validaError(err error){
 			counter++
 		}
 ```        
+
+
+## Clase 10: Switch
+
+```
+switch val {
+case "a":
+	fmt.Println("Case A")
+case "b":
+	fmt.Println("Case B")
+case "c":
+	fmt.Println("Case C")
+default:
+	fmt.Println("Invalid input")
+}
+
+//ejemplo 
+func main() {
+	//Imprimimos la orden al usuario
+	printMenu()
+
+	//Forma de leer desde consola
+	scanner := bufio.NewScanner(os.Stdin)
+	scanner.Scan()
+	operacion := scanner.Text()
+
+	switch operacion {
+	case "1":
+		fmt.Println("El Resultado de la suma es:", suma())
+	case "2":
+		fmt.Println("El Resultado de la resta es:", resta())
+	case "3":
+		fmt.Println("El Resultado de la multiplicación es:", multi())
+	case "4":
+		fmt.Println("El Resultado de la multiplicación es:", divide())
+	default:
+		fmt.Println("Invalid input")
+	}
+
+	fmt.Println("Adios gracias por usar la calculadora en GO!!")
+}
+```

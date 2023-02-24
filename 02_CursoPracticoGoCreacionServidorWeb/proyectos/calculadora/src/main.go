@@ -40,7 +40,7 @@ func suma() int {
 func resta() int {
 	var resta int = 0
 	//Leo Dos Numeros
-	numeroA, numeroB := leeNumeroResta()
+	numeroA, numeroB := readTwoNumber()
 
 	svA, err1 := strconv.Atoi(numeroA)
 	if err1 != nil {
@@ -57,6 +57,30 @@ func resta() int {
 	return resta
 }
 
+func divide() int {
+	var resta int = 0
+	//Leo Dos Numeros
+	numeroA, numeroB := readTwoNumber()
+
+	svA, err1 := strconv.Atoi(numeroA)
+	if err1 != nil {
+		fmt.Println("Valida tu teclado solo debes ingresar número NO letras!")
+	}
+
+	svB, err2 := strconv.Atoi(numeroB)
+	if err2 != nil {
+		fmt.Println("Valida tu teclado solo debes ingresar numero NO letras")
+	}
+
+	if svB == 0 {
+		fmt.Println("No puedes dividir un numero con un Cero (0)")
+	} else {
+		//Calculo la resta
+		resta = svA / svB
+	}
+	return resta
+}
+
 func multi() int {
 	var multi int = 1
 	counter := 0
@@ -64,22 +88,33 @@ func multi() int {
 		//Leo Numero
 		numero := leeNumero()
 		//Valido que sea entero
-		/*if sv, err := strconv.Atoi(numero); err == nil {
-			fmt.Println("entro")
-			fmt.Printf("%T, %v\n", sv, sv)
+		sv, err := strconv.Atoi(numero)
+		if err != nil {
+			fmt.Println("Valida tu teclado solo debes ingresar numero no letras")
+			log.Fatal("Sucedio un error tipo: ", err)
 			break
-		}*/
-		//convierto a entero
-		sv, _ := strconv.Atoi(numero)
+		}
 		//Sumo
 		multi = multi * sv
 		//Leo Respuesta si desea continuar si o no
 		respuestaScan := leerRespuesta()
-		if respuestaScan != "S" {
+		if strings.ToUpper(respuestaScan) != "S" {
 			counter++
 		}
 	}
 	return multi
+}
+
+func printMenu() {
+
+	fmt.Println("---------------Menu-----------------")
+	fmt.Println("Ingrese la operacion a realizar: ")
+	fmt.Println("Ingrese (1) Para realizar una suma(+)")
+	fmt.Println("Ingrese (2) Para realizar una resta(-)")
+	fmt.Println("Ingrese (3) Para realizar una multiplicacion(*)")
+	fmt.Println("Ingrese (4) Para realizar una División (/)")
+	fmt.Println("---------------Menu-----------------")
+
 }
 
 func leerRespuesta() string {
@@ -102,7 +137,7 @@ func leeNumero() string {
 	return numero
 }
 
-func leeNumeroResta() (a, b string) {
+func readTwoNumber() (a, b string) {
 
 	fmt.Println("Ingrese un número A: ")
 	//Forma de leer desde consola
@@ -118,30 +153,30 @@ func leeNumeroResta() (a, b string) {
 	return numeroA, numeroB
 }
 
+func parsearInt (valor string) int{
+	return resul, err := strconv.Atoi(valor)
+}
+
 func main() {
 	//Imprimimos la orden al usuario
-	fmt.Println("---------------Menu-----------------")
-	fmt.Println("Ingrese la operacion a realizar: ")
-	fmt.Println("Ingrese (1) Para realizar una suma(+)")
-	fmt.Println("Ingrese (2) Para realizar una resta(-)")
-	fmt.Println("Ingrese (3) Para realizar una multiplicacion(*)")
-	fmt.Println("---------------Menu-----------------")
+	printMenu()
 
 	//Forma de leer desde consola
 	scanner := bufio.NewScanner(os.Stdin)
 	scanner.Scan()
 	operacion := scanner.Text()
 
-	if operacion == "1" {
+	switch operacion {
+	case "1":
 		fmt.Println("El Resultado de la suma es:", suma())
-	}
-
-	if operacion == "2" {
+	case "2":
 		fmt.Println("El Resultado de la resta es:", resta())
-	}
-
-	if operacion == "3" {
+	case "3":
 		fmt.Println("El Resultado de la multiplicación es:", multi())
+	case "4":
+		fmt.Println("El Resultado de la División es:", divide())
+	default:
+		fmt.Println("No es una opción correcta!!")
 	}
 
 	fmt.Println("Adios gracias por usar la calculadora en GO!!")
