@@ -271,3 +271,228 @@ func main() {
 }
 
 ```
+
+## Clase 16-17 : Ciclo For 
+
+> La mas usada es la de range pero existen 4 tipos de formas 
+
+**Características de range:**
+
+- Es equivalente a foreach en otros lenguajes de programación
+- Regresa 2 valores: el índice de la estructura de datos y el valor contenido. En caso de no usar el índice, se puede reemplazar con un guión bajo (_).
+- Éste puede iterar sobre valores de tipo string, array, slice, channel ó map.
+
+```
+// Sintaxis clásica para definir un ciclo for
+for i := 0; i < len(list.tasks); i++ {
+    fmt.Println("Index:", i, "task:", list.tasks[i].name)
+}
+```
+
+## Clase 18: ¿Qué es una interfaz?
+
+> En Go para decir que una clase implementa a una interfaz no es necesario hacerlo de manera explicita como otro lenguajes como c#, Java, etc. En go, se hace de manera implícita. es decir, solo necesita cumplir com las firmas que están en la interfaz.
+> Las interfaces en Go simulan el comportamiento de conceptos como clases e interfaces de otros lenguajes, permitiendo también polimorfismo.
+> 
+
+```
+package main
+
+import "fmt"
+
+func main(){
+
+	figuras := make([]Area, 0)
+	figuras = append(figuras, &Cuadrado{lado:4})
+	figuras = append(figuras, &Rectangulo{lado:4, base: 6})
+	figuras = append(figuras, &Triangulo{base:4, altura:10})
+
+        // Calcular areas
+	for _, f := range figuras {
+		fmt.Println(f.CalcularArea())
+	}
+
+}
+
+type Area interface {
+	CalcularArea() int
+}
+
+// Cuadrado implementa Area de manera implicita
+type Cuadrado struct {
+	lado int
+}
+
+func (c *Cuadrado) CalcularArea() int {
+	return c.lado * c.lado
+}
+
+// Rectangulo implementa Area de manera implicita
+type Rectangulo struct {
+	lado, base int
+}
+
+func (r *Rectangulo) CalcularArea() int {
+	return r.lado * r.base
+}
+
+// Triangulo implementa Area de manera implicita
+type Triangulo struct {
+	base, altura int
+}
+
+func (t *Triangulo) CalcularArea() int {
+	return (t.base * t.altura)/2
+}
+```
+
+## Clase 19-21: ¿Qué es una interfaz?
+> Los mapas son muy importantes por una sencilla razón, te permite almacenar información y luego consultarla en tiempo constante.
+
+> Es decir si tú tienes una lista con números únicos por ejemplo, para encontrar un número, debes hacer un for e ir comparando hasta encontrar el correcto.
+>Con un mapa tú ya sabes la key específica y la memoria sabe donde está ese pedacito de información, así que irá de una y te regresará el dato que buscabas.
+
+```
+package main
+
+import "fmt"
+
+type animal interface {
+	makeSound() string
+}
+
+type dog struct{}
+
+type cat struct{}
+
+func (d dog) makeSound() string {
+	return "Waow waow"
+}
+
+func (c cat) makeSound() string {
+	return "Miau"
+}
+
+func animalMakeSound(a animal) {
+	fmt.Println(a.makeSound())
+}
+
+func main() {
+	cafu := dog{}
+	sisa := cat{}
+
+	animalMakeSound(cafu)
+	animalMakeSound(sisa)
+
+}
+
+```
+
+
+## Clase 22: Imprimiendo el contenido de una Página Web usando Interfaces
+
+> usamos lo metodos de GO para poder consumir y excribir desde la web 
+
+`
+import (	"io/ioutil"	"net/http" )
+`
+
+
+```
+package main
+
+import (
+	"fmt"
+	"io/ioutil"
+	"log"
+	"net/http"
+)
+
+func main() {
+
+	// Basic HTTP GET request
+	resp, err := http.Get("http://www.google.com")
+	if err != nil {
+		log.Fatal("Error getting response. ", err)
+	}
+	defer resp.Body.Close()
+
+	// Read body from response
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		log.Fatal("Error reading response. ", err)
+	}
+
+	fmt.Printf("%s\n", body)
+
+}
+
+```
+
+## Clase 23-24-: Introducción al problema de la Concurrencia
+
+![Explicación](./info/Screenshot_1.png)
+
+
+## Clase 25-27: Channels
+
+> Un pequeño fact es que este método de comunicación por channels, proviene de un científico llamado Tony Hoare y un concepto que llamó Comunicatin Sequential Processes (CSP) para describir patrones de interacción en sistemas concurrentes
+
+> Básicamente los channels de go parecen tuberías o FIFOS en linux
+
+```
+data := <- c // leer de un canal c  
+c <- data // enviar data a  canal c 
+```
+
+```
+package main
+
+import (
+	"fmt"
+	"net/http"
+	"time"
+)
+
+func main() {
+	inicio := time.Now()
+	//Creo un canal -> usamos la palabra reservada make
+	//Chan indica que es un canal
+	// siempre hay que decirle que tipo de string
+	canal := make(chan string)
+
+	servidores := []string{
+		"https://platzi.com/",
+		"https://google.com/",
+		"https://facebook.com/",
+	}
+
+	for _, servidor := range servidores {
+		go revisarServidor(servidor, canal)
+	}
+
+	for i := 0; i < len(servidores); i++ {
+		fmt.Println(<-canal) //Asi imprime lo que el canal devuelva
+	}
+
+	tiempoPaso := time.Since(inicio)
+	fmt.Printf("Tiempo transcurrido %s\n", tiempoPaso)
+
+}
+
+func revisarServidor(servidor string, canal chan string) {
+
+	_, err := http.Get(servidor)
+
+	if err != nil {
+		fmt.Println(servidor, "No esta activo =( ")
+		canal <- servidor + "No esta activo =( "
+	} else {
+		fmt.Println(servidor, "Si esta activo =) ")
+		canal <- servidor + "Si esta activo =) "
+	}
+}
+
+```
+
+
