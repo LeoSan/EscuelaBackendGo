@@ -496,3 +496,10 @@ func revisarServidor(servidor string, canal chan string) {
 ```
 
 
+## Clase 28-29: Descripción de Servidor Web
+> Explica lo que es un cliente-servidor 
+
+**Notas**
+- En windows si deseas compilar todos los archivos de ese directororio en windows -> `go run .` en Linux -> `go run *`
+- Si te sigue dando error ejecuta este comando `go env -w GO111MODULE=off`
+
