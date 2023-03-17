@@ -503,3 +503,6 @@ func revisarServidor(servidor string, canal chan string) {
 - En windows si deseas compilar todos los archivos de ese directororio en windows -> `go run .` en Linux -> `go run *`
 - Si te sigue dando error ejecuta este comando `go env -w GO111MODULE=off`
 
+
+https://platzi.com/clases/1846-programacion-golang-2020/26769-manejando-rutas-en-backend/
+
