@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// Permite
 func CheckCreateRequest() Middleware {
 	return func(f http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
@@ -24,11 +25,11 @@ func CheckCreateRequest() Middleware {
 
 				response, err := data.ToJson()
 				if err != nil {
-					w.WriteHeader(http.StatusInternalServerError)
+					w.WriteHeader(http.StatusInternalServerError) //Permite enviar un mensaje de error
 					return
 				}
 				w.Header().Set("Content-Type", "application/json")
-				w.Write(response)
+				w.Write(response) //Enviamos el response
 				f(w, r)
 			} else {
 				w.WriteHeader(http.StatusBadRequest)
@@ -39,21 +40,25 @@ func CheckCreateRequest() Middleware {
 	}
 }
 
+// Permite validar el loggin
 func Logging() Middleware {
 
 	return func(f http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
-			start := time.Now()
-			defer func() { log.Println(r.URL.Path, time.Since(start)) }()
-			f(w, r)
+			start := time.Now()                                           //Nos permite saber cuanto tiempo ha ocurrido
+			defer func() { log.Println(r.URL.Path, time.Since(start)) }() //defer permite ejcutar una funcion al final //Since te permite cuando tiempo se ejecuta un request
+			f(w, r)                                                       //Una  nueva forma de definir funciones son llamadas funciones anonimas
 		}
 	}
 }
 
+// Decide si puede seguir o no simplemente autentica la ruta
+// Es un metodo que retorna otro metodo como función
+// Middlewer tambien pueden ser handler y puede estar uno dentro de otro
 func CheckAuth() Middleware {
 	return func(f http.HandlerFunc) http.HandlerFunc {
 		return func(w http.ResponseWriter, r *http.Request) {
-			log.Println("Checking Authentication")
+			log.Println("checando autenticación!!") //Imprime la hora exacta cuando fue ejecutado
 			f(w, r)
 		}
 	}

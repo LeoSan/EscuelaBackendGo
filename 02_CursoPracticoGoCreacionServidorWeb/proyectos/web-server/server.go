@@ -29,18 +29,23 @@ func (s *Server) Listen() error {
 	return nil
 }
 
+// Handle es el nombre de la ruta por ejemplo "/api" asignado a un handler especifico
 func (s *Server) Handle(path string, method string, handler http.HandlerFunc) {
-	//Check if the path already exists
+	//Asociacion del handler con la ruta, es decir, el mapa con la llave path asignado al handler
 	if !s.router.FindPath(path) {
 		//If not path then create a new one
 		s.router.rules[path] = make(map[string]http.HandlerFunc)
 	}
 	s.router.rules[path][method] = handler
+	//asi el servidor es capaz de agregar la ruta especifica a un handler especifico
 }
 
+// Este metodo permite crear encadenamientos de ejecución de middleware
+// ...Middleware -> Agregando ... le permites decir a GO que llegaran varios middlerware o una cantidad de parametros que no sabemos
 func (s *Server) AddMiddleware(f http.HandlerFunc, middlewares ...Middleware) http.HandlerFunc {
+	//Agrupo los middlewares y creamos un slice de middleware
 	for _, m := range middlewares {
-		f = m(f)
+		f = m(f) //m son los multiples middleaware
 	}
 	return f
 }

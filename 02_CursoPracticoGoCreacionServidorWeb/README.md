@@ -504,5 +504,13 @@ func revisarServidor(servidor string, canal chan string) {
 - Si te sigue dando error ejecuta este comando `go env -w GO111MODULE=off`
 
 
-https://platzi.com/clases/1846-programacion-golang-2020/26769-manejando-rutas-en-backend/
+## Clase 30 - : Creamos los archivos correspondientes para crear un servidor 
+
+- Paso 1: Creaos el server [server.go](../02_CursoPracticoGoCreacionServidorWeb/proyectos/web-server/server.go)
+- Paso 2: Creamos los manejadores (handle) [handler.go](../02_CursoPracticoGoCreacionServidorWeb/proyectos/web-server/handlers.go)
+- Paso 3: Creamos los middlerwares  [middlerwares.go](../02_CursoPracticoGoCreacionServidorWeb/proyectos/web-server/handlers.go)
+- Paso 4: Creamos los router  [router.go](../02_CursoPracticoGoCreacionServidorWeb/proyectos/web-server/router.go)
+- Paso 5: Creamos los type -> es nuestro helpers  [types.go](../02_CursoPracticoGoCreacionServidorWeb/proyectos/web-server/types.go.go)
+- Paso 6: Creamos las rutas en el main ->  [main.go](../02_CursoPracticoGoCreacionServidorWeb/proyectos/web-server/main.go.go)
+  
 

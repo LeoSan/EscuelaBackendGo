@@ -13,17 +13,22 @@ func HandleHome(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Ruta Home, mostrando un mensaje simple, aun no es una pagina html!")
 }
 
-// Controlador que permitira indicar si estamos en la raiz
-// Parametro 1: escribe
-// Parametro 2: recibe
-// Recuerda es tu request y response
+// Handler para manejar la ruta principal
+// Parametros: escritor w del tipo http.ResponseWriter y objeto request
 func HandleRoot(w http.ResponseWriter, r *http.Request) {
+	//Impresion en el navegador
+	//parametros: escritor-objeto encargado de responder al cliente
+	//y mensaje escrito a travez del escritor
 	fmt.Fprintf(w, "/ API corriendo")
 }
 
+// Creamos metodo que permite ejeuctar ordenes tipo POST
+// usamos librerias NewDecoder permite decodificar un Json
 func PostRequest(w http.ResponseWriter, r *http.Request) {
-	decoder := json.NewDecoder(r.Body)
+	decoder := json.NewDecoder(r.Body) //Body viene la data Json enviada por request
 	var metadata MetaData
+
+	//Valido si el json viene con algun error
 	if err := decoder.Decode(&metadata); err != nil {
 		fmt.Fprintf(w, "error: %v", err)
 		return
