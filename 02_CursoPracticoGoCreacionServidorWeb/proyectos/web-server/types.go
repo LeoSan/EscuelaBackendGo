@@ -25,3 +25,5 @@ func (u *User) IsValid() bool {
 func (u *User) ToJson() ([]byte, error) {
 	return json.Marshal(u) //Permite empezar a encodear el struc a un json
 }
+
+//Nota usamos astericos para no usar copias que no queremos usar

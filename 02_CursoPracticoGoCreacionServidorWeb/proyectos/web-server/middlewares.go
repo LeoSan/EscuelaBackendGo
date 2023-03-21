@@ -30,7 +30,7 @@ func CheckCreateRequest() Middleware {
 				}
 				w.Header().Set("Content-Type", "application/json")
 				w.Write(response) //Enviamos el response
-				f(w, r)
+				//f(w, r)
 			} else {
 				w.WriteHeader(http.StatusBadRequest)
 				fmt.Fprintf(w, "Missing or Invalid Fields")

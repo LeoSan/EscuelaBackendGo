@@ -155,6 +155,11 @@ func main() {
 
 > Uso de Struct es el equivalente de una clase 
 
+**Nota**
+- En cuanto a variables y funciones es importante señalar que la letra inicial de la variables o de la función permite tener visibilidad
+- Letra `Mayuscula` es UN METODO PÚBLICO 
+- Letra `Minisculas` es un metodo PRIVADO 
+- Esto aplica en cuanto a variable y funciones 
 ```
 package main
 
@@ -504,7 +509,7 @@ func revisarServidor(servidor string, canal chan string) {
 - Si te sigue dando error ejecuta este comando `go env -w GO111MODULE=off`
 
 
-## Clase 30 - : Creamos los archivos correspondientes para crear un servidor 
+## Clase 30 - 39 : Creamos los archivos correspondientes para crear un servidor 
 
 - Paso 1: Creaos el server [server.go](../02_CursoPracticoGoCreacionServidorWeb/proyectos/web-server/server.go)
 - Paso 2: Creamos los manejadores (handle) [handler.go](../02_CursoPracticoGoCreacionServidorWeb/proyectos/web-server/handlers.go)
@@ -514,3 +519,62 @@ func revisarServidor(servidor string, canal chan string) {
 - Paso 6: Creamos las rutas en el main ->  [main.go](../02_CursoPracticoGoCreacionServidorWeb/proyectos/web-server/main.go.go)
   
 
+
+# Herramientas GO 
+- Convertidor de json - GO -> https://mholt.github.io/json-to-go/
+- Convertidor de json - GO -> https://app.quicktype.io/
+- Frameeork GI -> https://gin-gonic.com/
+- MongoDB -> https://www.mongodb.com/docs/drivers/go/current/
+- Standar de GO -> https://github.com/golang-standards/project-layout
+
+
+
+## Clase 40 -41 : Go Modules creando nuestro primer módulo en Go
+
+- Lo explicaron muy mal, debo buscar otra información y nutrirme 
+
+
+# No entendí le pedí ayuda al Chat GTP y pude entender esta clase:
+- Paso 1:  Crea un directorio: Lo primero que debes hacer es crear un directorio para el módulo que vas a crear. Este directorio debe tener un nombre que identifique el módulo. Por ejemplo, si estás creando un módulo para manejar fechas, podrías llamar al directorio “fecha”.
+
+- Paso 2:  Crea un archivo go.mod: Dentro del directorio que creaste en el paso anterior, debes crear un archivo llamado go.mod. Este archivo es el que va a contener la información sobre el módulo que estás creando, como el nombre, la versión, las dependencias, entre otros.
+
+- Paso 3: Define el nombre y la versión del módulo: En el archivo go.mod, debes especificar el nombre y la versión del módulo que estás creando. Para hacer esto, escribe el siguiente comando en el archivo:
+
+`module nombre-del-modulo/v1.0.0`
+
+	- Reemplaza `nombre-del-modulo` con el nombre que elegiste para el módulo y `v1.0.0` con la versión inicial del módulo.
+
+- Paso 4: Agrega las dependencias: Si tu módulo depende de otros paquetes o módulos, debes agregarlos al archivo go.mod. Para hacer esto, escribe el siguiente comando en el archivo:
+
+`require (nombre-del-paquete/v1.0.0)`
+
+	- Reemplaza `nombre-del-paquete` con el nombre del paquete que estás agregando y `v1.0.0` con la versión del paquete.
+
+- Paso 5: Crea los archivos del módulo: Ahora debes crear los archivos que van a conformar el módulo que estás creando. Por ejemplo, si estás creando un módulo para manejar fechas, podrías crear un archivo llamado “fecha.go” que contenga el código para manejar fechas.
+
+- Paso 6: Exporta las funciones y estructuras del módulo: Para que otras personas puedan utilizar tu módulo, debes exportar las funciones y estructuras que has creado. Para hacer esto, debes nombrar las funciones y estructuras con una letra mayúscula en la primera letra del nombre. Por ejemplo, si tienes una función llamada “calcularEdad”, deberías nombrarla como “CalcularEdad”.
+
+- Paso 7: Publica el módulo: Una vez que has creado el módulo y has exportado las funciones y estructuras, debes publicarlo en un repositorio para que otras personas puedan utilizarlo. Puedes publicarlo en un repositorio de Git, como GitHub o GitLab, o en un repositorio de Go, como el Registro de Paquetes de Go.
+
+**¡Listo! Con estos pasos, has creado tu propio módulo en Go. Recuerda que para utilizarlo en otros proyectos, debes importarlo en el archivo go.mod de ese proyecto.**
+
+## En Caso de librerias en github Privados
+
+`
+Si están trabajando con Go en una empresa, puede que su proyecto tenga dependencias privadas de la misma organización.
+
+Para poder acceder a esos módulos privados tendrán que agregar una variable de entorno a su entorno local, de esa forma go clonará los proyectos utilizando git, en vez de fallar cuando intenta buscarlos a través del proxy de módulos de Go.
+
+Agregar la variable de entorno:
+export GOPRIVATE="github.com/[el usuario dueño del módulo]"
+
+# Si usas Go 1.13+ podés ejecutar:
+go env -w GOPRIVATE="github.com/[el usuario dueño del módulo]"
+Una vez que setees GOPRIVATE, Go va a usar git para clonar los repositorios que coincidan con la variable de entorno. Por defecto, Go clona módulos usando http pero para poder autenticarte con Github y poder clonar repositorios privados vas a necesitar ssh. Para forzar a git a usar ssh en Github, necesitas agregar lo siguiente en tu ~/.gitconfig:
+
+[url "ssh://git@github.com/"]
+    insteadOf = https://github.com/
+Y voilá! Ya podés sincronizar las dependencias privadas de tu proyecto!
+
+`
