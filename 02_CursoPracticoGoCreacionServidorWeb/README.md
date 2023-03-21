@@ -160,6 +160,12 @@ func main() {
 - Letra `Mayuscula` es UN METODO PÚBLICO 
 - Letra `Minisculas` es un metodo PRIVADO 
 - Esto aplica en cuanto a variable y funciones 
+
+
+```
+Las Receiver Function le da la propiedad al struct de tener el método dentro de el, es decir cuando instanciemos a la struct vamos a poder llamar a los métodos dentro de la Receiver Function.
+```
+
 ```
 package main
 
