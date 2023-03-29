@@ -568,3 +568,292 @@ func main() {
 	//Notese que se usa el mismo metodo pero para diferentes comportamientos  logramos el comportamiento polimorfismo
 }
 ```
+
+## Clase 12: Aplicando interfaces con Abstract Factory
+
+**Concepto**
+- Patrón de diseño de tipo creacional que permite la producción de objetos de la misma familia o tipo sin especificar su clase correcta, permitiendo esa determinación en tiempo de ejecución
+- Go te permite implementar muchos de los patrones de diseño que están basados en polimorfismo mediante la utilización de interfaces
+- 
+![Interface UML](../03_CursoIntermedio_Programacion_OrientadaObjetosConcurrencia/info/Screenshot_2.png)
+![Ejmplo](../03_CursoIntermedio_Programacion_OrientadaObjetosConcurrencia/info/Screenshot_3.png)
+
+**Ejemplo código**
+
+```
+package main
+
+import "fmt"
+
+// SMS Email
+
+type INotificationFactory interface {
+	SendNotification()
+	GetSender() ISender
+}
+
+type ISender interface {
+	GetSenderMethod() string
+	GetSenderChannel() string
+}
+
+type SMSNotification struct {
+}
+
+func (SMSNotification) SendNotification() {
+	fmt.Println("Sending Notification via SMS")
+}
+
+func (SMSNotification) GetSender() ISender {
+	return SMSNotificationSender{}
+}
+
+type SMSNotificationSender struct {
+}
+
+func (SMSNotificationSender) GetSenderMethod() string {
+	return "SMS"
+}
+
+func (SMSNotificationSender) GetSenderChannel() string {
+	return "Twilio"
+}
+
+type EmailNotification struct {
+}
+
+func (EmailNotification) SendNotification() {
+	fmt.Println("Sending Notification via Email")
+}
+
+func (EmailNotification) GetSender() ISender {
+	return EmailNotificationSender{}
+}
+
+type EmailNotificationSender struct {
+}
+
+func (EmailNotificationSender) GetSenderMethod() string {
+	return "Email"
+}
+
+func (EmailNotificationSender) GetSenderChannel() string {
+	return "SES"
+}
+
+func getNotificationFactory(notificationType string) (INotificationFactory, error) {
+	if notificationType == "SMS" {
+		return &SMSNotification{}, nil
+	}
+
+	if notificationType == "Email" {
+		return &EmailNotification{}, nil
+	}
+
+	return nil, fmt.Errorf("No Notification Type")
+}
+
+func sendNotification(f INotificationFactory) {
+	f.SendNotification()
+}
+
+func getMethod(f INotificationFactory) {
+	fmt.Println(f.GetSender().GetSenderMethod())
+}
+
+func main() {
+	smsFactory, _ := getNotificationFactory("SMS")
+	emailFactory, _ := getNotificationFactory("Email")
+
+	sendNotification(smsFactory)
+	sendNotification(emailFactory)
+
+	getMethod(smsFactory)
+	getMethod(emailFactory)
+}
+```
+
+## Clase 13:Funciones anónimas
+
+- Una función anónima es una función definida internamente dentro de un bloque de código, y que no tiene identificador o nombre. Este tipo de funciones no son reutilizables como paquetes, siendo utilizadas únicamente dentro del bloque de código en el que son declaradas.
+- También se pueden hacer funciones que anónimas que reciben parámetros. Solamente hay que agregar el valor del mismo en los paréntesis del final
+
+```
+package functions
+
+import (
+	"fmt"
+	"time"
+)
+
+// anon func's are not very recommended for DRY purposes. Only use it when it is necessary.
+func anon() {
+	x := 5
+
+	// Anonymous func 1
+	y := func(x int) int {
+		return x * 2
+	}
+	fmt.Println("y anon func: ", y(x))
+
+	// Anonymous func 2 (it calls directly the param and calls itself)
+	z := func() int {
+		return x * 2
+	}()
+	fmt.Println("y anon func: ", z)
+
+	// 3rd Anonymous way: lambda Goroutine in a channel
+	// Create channel for blocking Gorouting until msg arrives
+	c := make(chan int)
+	// anon Goroutine
+	go func() {
+		// Exec func logic in Goroutine
+		fmt.Println("Starting Goroutine anon func...")
+		time.Sleep(1 * time.Second)
+		fmt.Println("Goroutine ended")
+
+		// Send int to c channel
+		c <- 1
+	}() // calls itself
+	// Waits until receiving the msg in c channel
+	<-c
+
+}
+
+func Functions() {
+	anon()
+}
+
+```
+
+- Una solución para no definir la función anónima dos veces, es declarandola pero no invocarla con los () al final, con esto podemos llamarla más adelante con la variable
+- 
+```
+package main
+
+import "fmt"
+
+func main() {	
+
+	x := 5
+	y := func(num int) int {
+		return num * 2
+	}
+
+	z := 8
+
+	fmt.Println(y(x))
+	fmt.Println(y(z))
+}
+```
+
+## Clase 14 : Funciones variadicas y retornos con nombre
+
+- Las funciones variadicas nos permiten utilizar como slices los argumentos de funciones de los cuales no sabemos su longitud exacta.
+
+**Los retornos con nombre**
+- Los retornos con nombre nos permiten definir variables antes de definir el cuerpo de la función, por lo cual utilizaremos return para devolverlos.
+
+
+**Los retornos con nombre**
+```
+package main
+
+import "fmt"
+
+func sum(values ...int) int {// ( ...int ) Permite indicar que no sabremos cuantos nombre o cuantos parametros vendran y lo podemos tartar como un slices
+	total := 0
+	for _, num := range values {
+		total += num
+	}
+	return total
+}
+
+func printNames(names ...string) {// ( ...int ) Permite indicar que no sabremos cuantos nombre o cuantos parametros vendran y lo podemos tartar como un slices
+	for _, name := range names {
+		fmt.Println(name)
+	}
+}
+
+func getValues(x int) (double int, triple int, quad int) { //definimos la cantidad de retorno ojo si o si se debe usar  dentro de la función si no se declara genera error, solo se usa dentro del bloque del código 
+	double = 2 * x
+	triple = 3 * x
+	quad = 4 * x
+	return  //go interfiere que tipo de valor va devolver sin necesidad de colocarlo en el return ya que se esta aplicando `Los retornos con nombre` esto defiene en el emcabezado de la función 
+}
+
+func main() {
+	fmt.Println(sum(1))
+	fmt.Println(sum(1, 2))
+	fmt.Println(sum(1, 2, 3, 4))
+	printNames("Alice", "Bob", "Charlie", "Dave")
+	fmt.Println(getValues(2))//Forma de `Los retornos con nombre`
+}
+```
+
+## Clases 15: Cómo utilizar los Go modules
+
+
+**Comandos**
+## Inicializar un módulo
+- `go mod init github.com/username/module`
+
+## Descargar una dependencia
+- `go get github.com/donvito/hellomod`  
+
+## Limpiar dependencias sin utilizar
+- `go mod tidy`
+
+## Información de los módulos cacheados
+- `go mod download -json` 
+
+```
+package main
+
+import (
+	"github.com/donvito/hellomod"
+	hellomod2 "github.com/donvito/hellomod/v2"
+)
+
+func main() {
+	hellomod.SayHello()
+	hellomod2.SayHello("Platzi")
+}
+```
+
+## Clases 17: Testing
+
+**Como generar un testing en GO**
+- Paso 1: debemos crear un archivo go con el sufijo `test` Ejemplo -> `main_test.go`
+- Paso 2: tener definido que vamos a evaluar para este ejemplo usaremos este archivo -> [testing/main.go](../03_CursoIntermedio_Programacion_OrientadaObjetosConcurrencia/testing/main.go)
+- Paso 3: iniciamos a escribir nuestras pruebas ejemplo de codificación -> [pruebas](../03_CursoIntermedio_Programacion_OrientadaObjetosConcurrencia/testing/main_test.go)
+
+- Paso 4: para generar  `testing` debemos crear un `mod` para poder crearlo ejecutamos este comando `go mod init nombreModulo`
+- Paso 5: usamos el comando `go test` y este nos indicará si la prueba corrio bien 
+![Imagen de prueba](../03_CursoIntermedio_Programacion_OrientadaObjetosConcurrencia/info/Screenshot_4.png)
+
+> Me apoyan a validar si me equivoque gente. 
+
+ ## Clase 18: 
+
+> Cobertura de código
+
+- La cobertura de prueba es una medida utilizada para describir el grado en que se ejecuta el código fuente de un programa cuando se ejecuta un conjunto de pruebas en particular.
+
+- Si el software que está probando contiene un total de 100 líneas de código y la cantidad de líneas de código que realmente se validan en el mismo software es 50, entonces el porcentaje de cobertura de código de este software será del 50 por ciento.
+
+**Comandos**
+**Indicador de % cubriendo las pruebas**
+- `go test -cover` // Nos indica el nivel de cobertura de as pruebas 
+- ![Imagen de prueba](../03_CursoIntermedio_Programacion_OrientadaObjetosConcurrencia/info/Screenshot_6.png)
+
+**Para generar el archivo cover**
+- `go test -coverprofile=coverage.out` //Usamos este archivo para tener metricas de nuestras pruebas y saber que parte de nuetsro codigo no hay pruebas 
+
+**ver resumen resumen en la terminal**
+- `go tool cover -func=coverage.out`   //Indicamos que le eviamos las funciones de nuetsro archivo main.go, lista las funciones 
+- ![Imagen de prueba](../03_CursoIntermedio_Programacion_OrientadaObjetosConcurrencia/info/Screenshot_5.png)
+
+**Ver resumen en el navegador**
+- `go tool cover -html=coverage.out`   //genera un htm que puedes usar el navegador para validar los procesos o funciones que no se han evaluado 
+- ![Imagen de prueba](../03_CursoIntermedio_Programacion_OrientadaObjetosConcurrencia/info/Screenshot_7.png)
