@@ -3,7 +3,6 @@
 
 ## Clase 1: Características esenciales de Go
 
-
 **¿Qué es?**
 
 > Es un Lenguaje compilado (se recopilan los códigos) y estáticamente tipado 
@@ -857,3 +856,659 @@ func main() {
 **Ver resumen en el navegador**
 - `go tool cover -html=coverage.out`   //genera un htm que puedes usar el navegador para validar los procesos o funciones que no se han evaluado 
 - ![Imagen de prueba](../03_CursoIntermedio_Programacion_OrientadaObjetosConcurrencia/info/Screenshot_7.png)
+
+## Clase 19: Profiling
+
+
+![Concepto](./info/Screenshot_8.png)
+
+> Permite vizualizar el comportamiento de tus programas ejecutados y tener un resultados incluso por lineas de códigos, esto permite realizar mejoras en momento de ejcución  
+
+
+**Para ver el uso de CPU del codigo que testeamos, usamos**
+- `go test -cpuprofile=cpu.out` 
+
+**Para ver el resumen del uso del CPU:**
+- `go tool pprof cpu.out`
+
+**Dentro de pprof escribimos top para ver como se han comportado los programas en nuestro test**
+
+`
+(pprof) top
+Además, dentro de pprof podemos inspeccionar el tiempo promedio de ejecución de cada línea de una función, usando el comando list <nombre_funcion>
+`
+
+(pprof) list Fibonacci
+Tambien podemos ver el reporte del promedio de ejecución:
+
+en el navegador usando web
+o exportarlo en pdf usando pdf
+(pprof) web
+(pprof) pdf
+
+**Para salir de (pprof) puedes usar quit o Ctrl + D**
+
+## Clase 20-21: Testing usando Mocks
+
+![Concepto](./info/Screenshot_9.png)
+
+> Esta tenica nos permite mockear ciertas partes de nuestro bloque de código o servicio, para que pueda ser validado por separado y no de manera conjunta. 
+
+
+Existen algunas librerias que te crean ciertos mocks, un ejemplo es gomock https://github.com/golang/mock, se los recomiendo.
+
+**Notas**
+- Es muy buena! hasta que te das cuenta que solo funciona con interfaces y no con tipos
+- Para usar los mosk debemos redfinir las funciones convirtiendolas en una variable = funcion ejemplo 
+- para ejecutar recuerda que debes implementar un modulo `go mod init testingmod->nombre`
+- Ejeuctamos luego `got test`
+`
+var GetPersonByDNI = func(dni string) (Person, error) {
+	time.Sleep(5 * time.Second) //Emula conexion a una base de datos
+	// SELECT * FROM Persona Where ...
+	return Person{}, nil
+}
+` 
+
+```
+package main
+
+func TestGetFullTimeEmployeeById( t *testing.T) {
+	table := []struct {
+		id int
+		dni string
+		mockFunc func()
+		expectedEmployee FullTimeEmployee
+	}{
+		{
+			id: 1,
+			dni: "1",
+			mockFunc: func() {
+				GetEmployeeById = func(id int) (Employee, error) {
+					return Employee {
+						Id: 1,
+						Position: "CEO",
+					}, nil
+				}
+
+				GetPersonByDni = func(id string) (Person, error) {
+					return Person{
+						Name: "John Doe",
+						Age: 35,
+						DNI: "1",
+					}, nil
+				}
+			},
+		}
+	}
+}
+```
+
+
+## Clase 22: Unbuffered channels y buffered channels
+
+![Concepto](./info/Screenshot_10.png)
+
+**Unbuffered channel:** 
+- Espera una función o una rutina para recibir el mensaje, es bloqueada por ser llamada en la misma función
+
+**Buffered channel:** 
+- Se puede llamar de manera inmediata, en el siguiente ejemplo 2 es el numero de canales que pueden ser usados
+
+```
+package main
+
+import "fmt"
+
+func main() {
+  // c := make(chan int) // Unbuffered
+  c := make(chan int, 2) // Buffered
+
+  c <- 1
+  c <- 2
+
+  fmt.Println(<-c)
+  fmt.Println(<-c)
+}
+```
+
+## Clase 23: Waitgroup
+
+Un WaitGroup espera que una colección de gorutinas terminen su trabajo. La gorutina de main llama Add para configurar el número de gorutinas por las que tiene que esperar. Luego cada una de las gorutinas corre y llama a Done cuando terminan. Al mismo tiempo, Wait puede ser usado para bloquear hasta que todas las gorutinas hayan finalizado. Escribir código concurrente es súper fácil: todo lo que tenemos que hacer es poner “go” en frente de una llamada a una función o método.
+
+
+
+```
+crea un grupo de espera que se incrementa en cada iteración, lo que
+también ejecutará la función doSmth() que restará 1 del grupo de espera
+después de que termine. wg.Wait() al final garantiza que esperará el wg (contador)
+ser 0
+runtime.NumCPU()
+runtime.NumGoroutine()
+sync.WaitGroup
+func (wg *WaitGroup) Add(delta int)
+func (wg *WaitGroup) Done()
+func (wg *WaitGroup) Wait()
+```
+
+```
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+/*
+crea un grupo de espera que se incrementa en cada iteración, lo que
+también ejecutará la función doSmth() que restará 1 del grupo de espera
+después de que termine. wg.Wait() al final garantiza que esperará el wg (contador)
+ser 0
+*/
+
+func doSmth(u int, wg *sync.WaitGroup) {
+	defer wg.Done()
+
+	fmt.Printf("Started at #%d\n", u)
+	time.Sleep(time.Second * 2)
+	fmt.Println("Ended...")
+}
+
+func main() {
+
+	var wg sync.WaitGroup
+
+	for i := 0; i < 10; i++ {
+		wg.Add(1)//Bloquea hasta que llegue a cero 
+		go doSmth(i, &wg)
+	}
+
+	wg.Wait()
+}
+
+```
+
+## Clase 24: Buffered channels como semáforos
+
+> Permite administrar la canidad de rutinas para ser ejecutaas usamos semaforos para ir limitando el maximo de ser ejecutado enc ierto tiempo. 
+
+```
+package main
+
+import (
+	"fmt"
+	"sync"
+	"time"
+)
+
+/*
+traffic light.
+
+this uses channels and waint groups to 1. execute only 2 doSmth() func
+at a time and 2. be able to wait for all of them.
+
+in order of execution it'll:
+c := [][] -- two free spaces
+c := [routine1][] -- one free space
+c := [rountine1][routine2] -- all occupied
+c := [][routine2] -- one free space
+*/
+
+func doSmth(i int, wg *sync.WaitGroup, c chan int) {
+	defer wg.Done()
+	fmt.Printf("Id: %d -> started...\n", i)
+	time.Sleep(time.Second * 4)
+	fmt.Printf("Id: %d -> finished...\n", i)
+
+	<- c // frees the space for new routines
+}
+
+func main() {
+	c := make(chan int, 2) // creates a buffered channel with a capacity of two
+	var wg sync.WaitGroup // creates wait group
+
+	for i := 0; i < 10; i++ {
+		c <- 1 // alocate a new "instance" in the free space
+		wg.Add(1) // adds to the wait group
+		go doSmth(i, &wg, c)
+	}
+
+	wg.Wait()
+}
+
+```
+
+## Clase 25: Definiendo channels de lectura y escritura
+
+
+>Cuando se trabaja con channels existe la gran probabilidad de crear un deadlock si no somos cuidadosos con su utilización, una forma de mitigar parte de este riesgo es definiedo canales de lectura o escritura , pero no ambos
+
+![Concepto](./info/Screenshot_11.png)
+
+![Concepto](./info/Screenshot_12.png)
+
+
+```
+package main
+
+import "fmt"
+
+func Generator(c chan<- int) {
+	fmt.Println("in gen func-->")
+	for i := 1; i <= 10; i++ {
+		fmt.Println("for gen", i)
+		c <- i
+	}
+	close(c)
+}
+
+func Double(in <-chan int, out chan<- int) {
+	fmt.Println("in double func-->")
+	for value := range in {
+		fmt.Println("for double", value)
+		out <- value * 2
+	}
+	close(out)
+}
+
+func Print(c chan int) {
+	for value := range c {
+		fmt.Println(value)
+	}
+}
+
+func main() {
+	generator := make(chan int)
+	doubles := make(chan int)
+
+	go Generator(generator)
+	go Double(generator, doubles)
+	Print(doubles)
+}
+
+```
+
+## Clase 26: Worker pools
+
+Los grupos de trabajadores son un modelo en el que un número fijo de n trabajadores (implementado en Go con goroutines), se abre camino a través de n tareas en una cola de trabajo (implementado en Go con un canal). 
+
+El trabajo permanece en una cola hasta que un trabajador finaliza su tarea actual y realiza una nueva.
+
+Básicamente hay una cantidad determinada de trabajadores y n tareas. Cada trabajador toma una tarea, y cuando la hace toma otra. Esto es muy útil para tareas frágiles que requieren mucho procesamiento.
+
+```
+package main
+
+import "fmt"
+
+// Worker es una función que hace el trabajo.
+func Worker(id int, jobs <-chan int, results chan<- int) {
+	for j := range jobs {
+		fmt.Println("worker", id, "started  job", j)
+		fib := Fibonnaci(j)
+		results <- fib
+		fmt.Println("worker", id, "finished job", j, "result", fib)
+	}
+}
+
+
+// Fibonacci devuelve el número n en la secuencia de Fibonacci.
+func Fibonnaci(n int) int {
+	if n < 2 {
+		return n
+	}
+	return Fibonnaci(n-1) + Fibonnaci(n-2)
+}
+
+func main() {
+	
+	// tareas por hacer
+	tasks := []int{2, 3, 4, 5, 7, 10, 12, 35, 37, 40, 41, 42}
+
+	nWorkers := 5
+	jobs := make(chan int, len(tasks))
+	results := make(chan int, len(tasks))
+
+	
+	// iniciar los trabajadores
+	for w := 1; w <= nWorkers; w++ {
+		go Worker(w, jobs, results)
+	}
+
+	
+	// dar trabajo a los trabajadores
+	for _, t := range tasks {
+		jobs <- t
+	}
+	close(jobs)
+
+	// obtener los resultados (consumir el canal)
+	for a := 1; a <= len(tasks); a++ {
+		<-results
+	}
+}
+```
+
+## Clase 27: Multiplexación con Select y Case
+
+> Permite leer los channels dependiendo quien se ejecute en la secuencia. esto tambien permite que puedas ser selectivo para seleciconar que channel deseas que muestre
+
+![Concepto](./info/Screenshot_13.png)
+
+```
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func doSomething(i time.Duration, c chan<- int, param int) {
+	time.Sleep(i)
+	c <- param
+}
+
+func main() {
+	c1 := make(chan int)
+	c2 := make(chan int)
+
+	d1 := 4 * time.Second
+	d2 := 2 * time.Second
+
+	go doSomething(d1, c1, 1)
+	go doSomething(d2, c2, 2)
+
+	/* fmt.Println("Waiting for the first result")
+	fmt.Println(<-c1)
+	fmt.Println("Waiting for the second result")
+	fmt.Println(<-c2) */
+
+	for i := 0; i < 2; i++ {
+		select {
+		case res := <-c1:
+			fmt.Println("Received", res, "from c1")
+		case res := <-c2:
+			fmt.Println("Received", res, "from c2")
+		}
+	}
+
+}
+
+```
+
+## Clase 28: Definiendo workers, jobs y dispatchers
+
+
+![Concepto](./info/Screenshot_15.png)
+
+**Notas**
+- El dispatcher recibe todos los jobs, se puede decir que es como el componente global
+- Cada worker tiene su canal de jobs, y saben cual es el canal del disptacher, es decir el workerpool es el mismo canal para todos los workers.
+- Cada worker esta enviando su canal al canal del dispatcher
+- En la medida que el dispatcher recibe jobs este los va repartiendo entre los workers a través de sus canales
+
+![Concepto](./info/Screenshot_14.png)
+
+```
+Explico lo que pasó en esta clase con ejemplo más criollo:
+
+Tenemos una empresa de buses. En esta empresa tenemos:
+
+Conductores (workers)
+Rutas (Job)
+Vendedores de tiquetes de bus (Dispacher)
+Cada conductor (Conductor) tiene una lista de rutas (Job) que tiene que hacer.
+
+El vendedor de tiquetes (Dispatcher), tiene una lista de todas las rutas que se ofrecen.
+
+Cuando un cliente (Nosotros/Usuario) se acerca por un tiquete (Job), le compra al vendedor de tiquetes (Dispatcher), un tiquete para ir a otra ciudad.
+
+Este vendedor, ya tiene una lista de tiquetes por realizar (Job), y le envía la ruta a realizar al primer conductor (Worker) que este disponible.
+```
+
+
+```
+package project
+
+import (
+	"fmt"
+	"time"
+)
+
+// Estructura de la tareas de procesar
+type Job struct {
+	Name   string        //Nombre de la tarea
+	Delay  time.Duration //Tiempo de espera
+	Number int           // Numero a procesar
+}
+
+type Worker struct {
+	Id         int           // id del Worker
+	JobQueue   chan Job      // Canal de tareas del worker
+	WorkerPool chan chan Job //Canal de canales de tareas, este canal se comparte entre todos los workers
+	QuitChan   chan bool     //Canal para parar al worker
+}
+
+type Dispatcher struct {
+	WorkerPool chan chan Job //Canal de canales de tareas, este se les pasa a cada worker nuevo
+	MaxWorkers int           //cantidad maxima de workers
+	JobQueue   chan Job      //Canal de tareas, se puede ver como un canal global de tareas que despues se reparten entre workers
+}
+
+func NewWorker(id int, workerPool chan chan Job) *Worker {
+	return &Worker{
+		Id:         id,              //Se asigna un id
+		WorkerPool: workerPool,      //Se le indica el canal donde tiene quie agregar su canal de tareas
+		JobQueue:   make(chan Job),  //Canal de tareas del worker
+		QuitChan:   make(chan bool), //Canal para parar al worker
+	}
+}
+
+func (w Worker) Start() {
+
+	//Se inicia de manera concurrente un ciclo sin fin
+	go func() {
+		for {
+
+			//Al worker pool se manda el canal de worker, este se manda cada vez iteracion, es decir cuando el worker termino de hacer un jobs
+			w.WorkerPool <- w.JobQueue
+
+			//Se multiplexean los canales del worker
+			select {
+			case job := <-w.JobQueue:
+				//Si se recibe un job en el canal de tareas del worker se ejecuta
+				fmt.Printf("Worker with id %d Started\n", w.Id)
+				fib := Fibonacci(job.Number)
+				time.Sleep(job.Delay)
+				fmt.Printf("Worker with id %d Finishes with result %d\n", w.Id, fib)
+
+			case <-w.QuitChan:
+				//Si se recibe un job en el canal de salida se para el worker (lo sca del ciclo)
+				fmt.Printf("Worker with id %d Stopped\n", w.Id)
+				return
+			}
+
+		}
+	}()
+}
+
+//La funcion stop manda un true al canl de salida del worker
+func (w Worker) Stop() {
+	go func() {
+		w.QuitChan <- true
+	}()
+}
+
+//El dispatcher cuenta con el el canal global de jobs y un canal de todos los canales de los workers
+
+func NewDispatcher(jobQueue chan Job, maxWorkers int) *Dispatcher {
+
+	worker := make(chan chan Job, maxWorkers)
+	return &Dispatcher{
+		JobQueue:   jobQueue,
+		MaxWorkers: maxWorkers,
+		WorkerPool: worker,
+	}
+}
+
+func (d *Dispatcher) Dispatch() {
+
+	//Inicia de manera indefinidad a mandar jobs a los canales que se van recibiendo en el canal de caneles de jobs
+	for {
+		select {
+		case job := <-d.JobQueue:
+			go func() {
+				workerJobQueue := <-d.WorkerPool
+				workerJobQueue <- job
+			}()
+		}
+	}
+}
+
+func Fibonacci(n int) int {
+	if n <= 1 {
+		return n
+	}
+
+	return Fibonacci(n-1) + Fibonacci(n-2)
+}
+
+```
+
+
+## Clase 29: Creando web server para procesar jobs
+
+![Concepto](./info/Screenshot_16.png)
+
+```
+package main
+
+import (
+	"fmt"
+	"log"
+	"net/http"
+	"strconv"
+	"time"
+)
+
+type Job struct {
+	Name   string
+	Delay  time.Duration
+	Number int
+}
+
+type Worker struct {
+	Id       int
+	JobQueue chan Job
+	QuitChan chan bool
+}
+
+func NewWorker(id int, jobQueue chan Job) *Worker {
+	return &Worker{
+		Id:       id,
+		JobQueue: jobQueue,
+		QuitChan: make(chan bool),
+	}
+}
+
+func (w *Worker) Start() {
+	go func() {
+		for {
+			select {
+			case job := <-w.JobQueue:
+				fmt.Println("Worker with id", w.Id, "Started")
+				result := Fibonacci(job.Number)
+				time.Sleep(job.Delay)
+				fmt.Println("Worker with id", w.Id, "Finished with result", result)
+			case <-w.QuitChan:
+				fmt.Println("Worker with id", w.Id, "Terminated")
+				break
+			}
+		}
+	}()
+}
+
+func (w *Worker) Stop() {
+	go func() {
+		w.QuitChan <- true
+	}()
+}
+
+type Dispatcher struct {
+	MaxWorkers int
+	JobQueue   chan Job
+}
+
+func NewDispatcher(jobQueue chan Job, maxWorkers int) *Dispatcher {
+	return &Dispatcher{
+		JobQueue:   jobQueue,
+		MaxWorkers: maxWorkers,
+	}
+}
+
+func (d *Dispatcher) Run() {
+	for i := 0; i < d.MaxWorkers; i++ {
+		worker := NewWorker(i, d.JobQueue)
+		worker.Start()
+	}
+}
+
+func Fibonacci(n int) int {
+	if n < 2 {
+		return n
+	}
+
+	return Fibonacci(n-1) + Fibonacci(n-2)
+}
+
+func RequestHandler(w http.ResponseWriter, r *http.Request, jobQueue chan Job) {
+	if r.Method != "POST" {
+		w.Header().Set("Allow", "POST")
+		w.WriteHeader(http.StatusMethodNotAllowed)
+	}
+
+	delay, err := time.ParseDuration(r.FormValue("delay")) //Parseo en formato de tiempo 
+	if err != nil {
+		http.Error(w, "Invalid delay", http.StatusBadRequest)
+		return
+	}
+
+	value, err := strconv.Atoi(r.FormValue("value"))//Pasa string a entero 
+	if err != nil {
+		http.Error(w, "Invalid value", http.StatusBadRequest)
+		return
+	}
+
+	name := r.FormValue("name")
+	if name == "" {
+		http.Error(w, fmt.Sprintf("Invalid name %s", name), http.StatusBadRequest)
+		return
+	}
+
+	job := Job{name, delay, value}
+	jobQueue <- job
+	w.WriteHeader(http.StatusCreated)
+}
+
+func main() {
+	const (
+		maxWorkers   = 4
+		maxQueueSize = 20
+		port         = ":8081"
+	)
+
+	jobQueue := make(chan Job, maxQueueSize)
+	dispatcher := NewDispatcher(jobQueue, maxWorkers)
+	dispatcher.Run()
+
+	http.HandleFunc("/fibonacci", func(w http.ResponseWriter, r *http.Request) {
+		RequestHandler(w, r, jobQueue)
+	})
+
+	err := http.ListenAndServe(port, nil)
+	if err != nil {
+		log.Fatal("Cannot run server")//Bloque la ejecución 
+	}
+}
+```
