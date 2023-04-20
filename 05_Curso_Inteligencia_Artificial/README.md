@@ -405,3 +405,30 @@ Cada nodo del árbol representa un estado del juego, mientras que cada rama repr
 
 - Los árboles de juego se utilizan en una variedad de aplicaciones de inteligencia artificial, incluyendo juegos de mesa, estrategias militares, finanzas y planificación de proyectos.
 
+## Clase 17 : Regresión lineal simple
+
+**Nota**
+- Es una técnica que nos ayuda a predecir un valor desconocido 
+- Debemos encontrar la variable dependiente 
+
+**Caracteristicas**
+- La regresión lineal simple es una técnica de aprendizaje supervisado utilizada en inteligencia artificial para predecir valores continuos en función de una variable independiente. 
+- Es un método estadístico que se utiliza para modelar la relación lineal entre dos variables, una variable independiente (X) y una variable dependiente (Y).
+- La regresión lineal simple asume que la relación entre las dos variables se puede modelar mediante una línea recta. 
+- El objetivo de la regresión lineal simple es encontrar la ecuación de la línea recta que mejor se ajuste a los datos, lo que permite predecir el valor de Y para cualquier valor dado de X.
+
+**Funcionamiento de la regresión lineal simple**
+- Para implementar la regresión lineal simple en IA, se utiliza un conjunto de datos de entrenamiento que contiene valores de la variable independiente (X) y la variable dependiente (Y). 
+- El objetivo es encontrar la ecuación de la línea recta que mejor se ajuste a los datos de entrenamiento.
+- Para encontrar la ecuación de la línea recta, se utiliza un algoritmo de optimización que minimiza la suma de los errores al cuadrado entre los valores reales de Y y los valores predichos por la línea recta. 
+- La pendiente y la intersección de la línea recta se ajustan iterativamente hasta que se minimiza la suma de los errores al cuadrado.
+- Una vez que se ha encontrado la ecuación de la línea recta, se puede utilizar para predecir el valor de Y para cualquier valor dado de X. 
+- Esto permite utilizar la regresión lineal simple en IA para predecir valores continuos y realizar análisis de tendencias.
+
+**Ejemplo de regresión lineal simple**
+- Un ejemplo de regresión lineal simple es predecir la cantidad de energía consumida en función de la temperatura ambiente. 
+- El conjunto de datos de entrenamiento podría incluir valores de la temperatura ambiente (X) y la cantidad de energía consumida (Y) en diferentes momentos del día.
+- Una vez que se ha encontrado la ecuación de la línea recta que mejor se ajusta a los datos de entrenamiento, se puede utilizar para predecir la cantidad de energía consumida para cualquier temperatura dada. 
+- Esto permite a los usuarios planificar mejor su consumo de energía y optimizar sus costos de energía.
+
+## Clase 18 :
