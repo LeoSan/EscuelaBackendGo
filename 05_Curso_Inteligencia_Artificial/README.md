@@ -431,4 +431,243 @@ Cada nodo del árbol representa un estado del juego, mientras que cada rama repr
 - Una vez que se ha encontrado la ecuación de la línea recta que mejor se ajusta a los datos de entrenamiento, se puede utilizar para predecir la cantidad de energía consumida para cualquier temperatura dada. 
 - Esto permite a los usuarios planificar mejor su consumo de energía y optimizar sus costos de energía.
 
-## Clase 18 :
+## Clase 18 : Árboles de decisión
+
+```
+Los árboles de decisión son una técnica utilizada en inteligencia artificial para modelar decisiones complejas y tomar decisiones basadas en múltiples criterios. Un árbol de decisión es una estructura de datos que representa todas las posibles decisiones y resultados de un proceso de toma de decisiones en una serie de nodos y ramas.
+
+Cada nodo del árbol representa un punto de decisión en el proceso, mientras que cada rama representa una opción posible que lleva a un nuevo nodo de decisión o a un resultado final. Los algoritmos de construcción de árboles de decisión se utilizan para analizar los datos y construir árboles que representan las decisiones óptimas en función de múltiples criterios.
+
+Los árboles de decisión se utilizan en una amplia variedad de aplicaciones en inteligencia artificial, incluyendo la toma de decisiones empresariales, el diagnóstico médico y la detección de fraude.
+```
+
+**Funcionamiento de los árboles de decisión**
+
+El funcionamiento de los árboles de decisión comienza con un conjunto de datos de entrenamiento que contiene múltiples variables de entrada y una variable de salida que indica el resultado esperado. El objetivo es construir un árbol de decisión que modele la relación entre las variables de entrada y la variable de salida.
+
+El algoritmo de construcción de árboles de decisión comienza dividiendo los datos de entrenamiento en subconjuntos más pequeños en función de los valores de una variable de entrada. Luego, se calcula una medida de impureza para cada subconjunto, que indica la homogeneidad de los valores de la variable de salida en ese subconjunto.
+
+El algoritmo selecciona la variable de entrada que proporciona la mejor división de los datos en subconjuntos más homogéneos y crea un nodo de decisión en el árbol que representa esa variable de entrada. Luego, el algoritmo repite este proceso para cada subconjunto hasta que se alcance un estado final en el que todas las variables de entrada se hayan utilizado y se hayan creado todos los nodos de decisión necesarios.
+
+Una vez que se ha construido el árbol de decisión, se puede utilizar para tomar decisiones en función de los valores de las variables de entrada. Para tomar una decisión, se sigue la ruta en el árbol que corresponde a los valores de las variables de entrada y se llega a un nodo final que indica el resultado esperado.
+
+**Ejemplo de árbol de decisión**
+
+Un ejemplo de árbol de decisión es la detección de spam en correos electrónicos. El conjunto de datos de entrenamiento podría incluir múltiples variables de entrada, como el remitente, el asunto y el contenido del correo electrónico, y una variable de salida que indica si el correo electrónico es spam o no.
+
+El algoritmo de construcción de árboles de decisión se utilizaría para analizar los datos de entrenamiento y construir un árbol de decisión que modele la relación entre las variables de entrada y la variable de salida. Luego, el árbol de decisión se puede utilizar para clasificar nuevos correos electrónicos como spam o no spam en función de las variables de entrada.
+
+
+![IA_captura_08](./info/IA_captura_08.png)
+
+![IA_captura_08](./info/IA_captura_09.png)
+
+
+## Clase 19 : Hugging Face 101: modelos
+
+**Hugging Face**
+```
+Hugging Face es una plataforma de código abierto que se centra en el desarrollo de tecnologías de procesamiento del lenguaje natural (NLP, por sus siglas en inglés) y aprendizaje automático. En su sitio web, https://huggingface.co/, se pueden encontrar varios modelos de NLP pre-entrenados que se pueden utilizar para diversas tareas, como la traducción automática, la respuesta a preguntas, la generación de texto y la clasificación de texto.
+```
+
+Los modelos pre-entrenados de Hugging Face se basan en la arquitectura de “Transformers”, que es una técnica de aprendizaje profundo ampliamente utilizada para el procesamiento de lenguaje natural. Estos modelos se entrenan en grandes cantidades de datos de texto para mejorar su capacidad de comprensión del lenguaje natural y luego se pueden ajustar o fine-tunear para tareas específicas.
+
+**En el sitio web de Hugging Face, se pueden encontrar varios modelos pre-entrenados populares, incluyendo:**
+
+- BERT (Bidirectional Encoder Representations from Transformers): un modelo pre-entrenado de NLP que se utiliza para una amplia variedad de tareas, como la clasificación de texto, la extracción de entidades y la generación de texto.
+- GPT-2 (Generative Pre-trained Transformer 2): un modelo pre-entrenado de generación de texto que se utiliza para la creación de texto automático y la redacción asistida.
+- RoBERTa (Robustly Optimized BERT Pretraining Approach): un modelo pre-entrenado de NLP que se basa en la arquitectura de BERT pero con mejoras en la técnica de pre-entrenamiento.
+- T5 (Text-to-Text Transfer Transformer): un modelo pre-entrenado de NLP que se utiliza para una amplia variedad de tareas de texto a texto, como la traducción automática, la respuesta a preguntas y la generación de texto.
+
+Estos modelos pre-entrenados de Hugging Face se pueden utilizar en diversas aplicaciones de NLP y aprendizaje automático, y se pueden ajustar o fine-tunear para tareas específicas. En resumen, Hugging Face es una plataforma de código abierto que ofrece modelos pre-entrenados de NLP avanzados y herramientas de software para el procesamiento del lenguaje natural y el aprendizaje automático.
+
+**Listas de Modelos**
+- https://huggingface.co/
+- https://huggingface.co/google/vit-base-patch16-224
+- https://huggingface.co/nlpconnect/vit-gpt2-image-captioning
+- https://huggingface.co/Helsinki-NLP/opus-mt-en-es
+- https://huggingface.co/runwayml/stable-diffusion-v1-5
+- https://huggingface.co/facebook/bart-large-cnn
+
+## Clase 20 : Hugging Face 101: Spaces
+
+Spaces es una función relativamente reciente de Hugging Face que permite a los usuarios crear y compartir entornos de trabajo colaborativos para el procesamiento del lenguaje natural. Los Spaces de Hugging Face están diseñados para simplificar la colaboración en proyectos de NLP y permitir a los equipos trabajar juntos en tiempo real en tareas de procesamiento de lenguaje natural.
+
+Los Spaces permiten a los usuarios crear entornos de trabajo personalizados y configurarlos con los recursos necesarios, como modelos de lenguaje pre-entrenados, conjuntos de datos de NLP y herramientas de software. Los usuarios pueden trabajar juntos en tiempo real en los proyectos de NLP, lo que facilita la colaboración y la comunicación entre los miembros del equipo.
+
+Los Spaces de Hugging Face también incluyen herramientas para la gestión de versiones y la implementación de modelos de NLP, lo que facilita la integración de los proyectos de NLP en aplicaciones y servicios en línea.
+
+Además, los Spaces de Hugging Face cuentan con una amplia comunidad de usuarios y desarrolladores que comparten recursos y colaboran en proyectos de NLP. Los usuarios pueden acceder a la comunidad de Hugging Face para obtener ayuda y compartir conocimientos, lo que facilita el aprendizaje y la mejora continua en el procesamiento del lenguaje natural.
+
+En resumen, los Spaces de Hugging Face son una función de colaboración diseñada para simplificar el trabajo en equipo en proyectos de procesamiento del lenguaje natural, y ofrecen herramientas y recursos para la gestión de versiones, la implementación de modelos y la colaboración en tiempo real.
+
+**Listas de modelos**
+- https://huggingface.co/spaces/stabilityai/stable-diffusion
+- https://huggingface.co/spaces/timbrooks/instruct-pix2pix
+- https://huggingface.co/spaces/PKUWilliamYang/VToonify
+- https://huggingface.co/spaces/PKUWilliamYang/VToonify
+- https://huggingface.co/spaces/fffiloni/spectrogram-to-music
+
+## Clase 21 : Hugging Face 101: soluciones especializadas
+
+Hugging Face ofrece varias herramientas y recursos para crear y utilizar modelos de procesamiento del lenguaje natural (NLP) en producción. Aquí hay algunos pasos generales para crear modelos de NLP en producción con
+
+**Listas de modelos**
+- https://huggingface.co/autotrain
+- https://huggingface.co/inference-endpoints
+- https://platzi.com/cursos/hugging-face/
+
+## Clase 22 : ¿Por qué es importante el álgebra lineal para IA?
+
+El álgebra lineal es una rama de las matemáticas que se enfoca en el estudio de los sistemas de ecuaciones lineales y las transformaciones lineales. Es una herramienta fundamental para la inteligencia artificial (IA) y el aprendizaje automático (ML) por varias razones:
+
+Representación de datos: Muchas aplicaciones de IA y ML procesan grandes cantidades de datos que se representan como matrices o vectores. El álgebra lineal proporciona las herramientas para manipular y transformar estos datos en formas útiles para el análisis.
+Aprendizaje automático: Los algoritmos de aprendizaje automático se basan en la optimización de funciones objetivo, que se pueden expresar en términos de ecuaciones matriciales. El álgebra lineal permite la manipulación y resolución de estas ecuaciones para optimizar el rendimiento del modelo.
+Redes neuronales: Las redes neuronales son un tipo de modelo de aprendizaje profundo que se basan en la combinación lineal de entradas ponderadas para generar una salida. El álgebra lineal proporciona las herramientas para la implementación y optimización de las operaciones matriciales que subyacen en la computación de las redes neuronales.
+Análisis de componentes principales: El análisis de componentes principales (PCA) es una técnica de reducción de dimensionalidad que se utiliza para simplificar conjuntos de datos complejos. Se basa en la transformación lineal de la matriz de covarianza de los datos. El álgebra lineal es esencial para la implementación y comprensión del PCA.
+En resumen, el álgebra lineal es importante para la IA y el ML porque proporciona las herramientas matemáticas necesarias para representar y manipular datos, optimizar modelos, implementar redes neuronales y reducir la dimensionalidad de los datos.
+
+
+## Clase 23 : ¿Por qué es importante el cálculo para IA?
+
+El cálculo es una rama de las matemáticas que se enfoca en el estudio del cambio y la continuidad. Es una herramienta fundamental para la inteligencia artificial (IA) y el aprendizaje automático (ML) por las siguientes razones:
+
+**Optimización de funciones**
+Los modelos de IA y ML a menudo se basan en la optimización de funciones objetivo. El cálculo proporciona las herramientas para encontrar los puntos críticos de una función, como los mínimos y máximos, y para determinar si estos puntos son puntos de inflexión o puntos de silla. Esto es importante para encontrar los valores óptimos de los parámetros del modelo.
+
+**Derivadas e integrales**
+Las derivadas e integrales son conceptos fundamentales del cálculo y se utilizan en muchas aplicaciones de IA y ML. Por ejemplo, las derivadas se utilizan en el cálculo del gradiente de una función objetivo, que es esencial en el aprendizaje automático basado en gradientes, como el aprendizaje profundo. Las integrales se utilizan en la estimación de densidades de probabilidad y en la inferencia bayesiana.
+
+**Series de Taylor**
+Las series de Taylor son una herramienta importante en el análisis y la aproximación de funciones complejas. Se utilizan en muchas aplicaciones de IA y ML, como el cálculo de gradientes de funciones no diferenciables y la aproximación de funciones de pérdida.
+
+**Redes neuronales**
+Las redes neuronales son un tipo de modelo de aprendizaje profundo que se basan en la combinación lineal de entradas ponderadas para generar una salida. El cálculo proporciona las herramientas para la implementación y optimización de las operaciones matemáticas que subyacen en la computación de las redes neuronales.
+
+En resumen, el cálculo es importante para la IA y el ML porque proporciona las herramientas matemáticas necesarias para optimizar funciones, calcular gradientes, aproximar funciones complejas y implementar redes neuronales.
+
+
+## Clase 24: ¿Por qué es importante la estadística y probabilidad para IA?
+
+**Bloque Mátematicas**
+- **Álgebra** : Nos ayuda estructurar de forma númerica los objetos que tenemos que usar de estudio para entrenar algoritmos. 
+- **Cálculo** : Nos ayuda optimizar un proceso de predicción y de inferencia. este proceso no es perfecto trae incertidumbre. 
+- **Estadísticas** : Nos ayuda como organizar, recopilar y analizar información usando métodos matemáticos, tenemos dos ramas de las estaditicas una llamada inferencial y descriptiva.  
+
+## Clase 25: Ética en inteligencia artificial: contexto y definiciones
+
+**Ética de los datos en IA**
+- En la actualidad, la inteligencia artificial (IA) está transformando rápidamente la forma en que vivimos y trabajamos. 
+- El poder de la IA radica en su capacidad para analizar grandes cantidades de datos y encontrar patrones, lo que a su vez nos permite tomar decisiones más informadas y precisas. 
+- Sin embargo, esta capacidad también puede presentar riesgos éticos, especialmente en lo que se refiere a la privacidad y la discriminación.
+
+**¿Qué es la ética de los datos?**
+- La ética de los datos se refiere a los principios éticos que deben aplicarse a la recopilación, el análisis y el uso de datos. 
+- En el contexto de la IA, esto se refiere a cómo se utilizan los datos para entrenar y mejorar los modelos de IA, así como a cómo se utilizan los resultados de los modelos de IA para tomar decisiones en la vida real.
+
+**Problemas éticos en la IA**
+La IA puede presentar varios problemas éticos relacionados con los datos, como los siguientes:
+
+**Privacidad**
+- La privacidad es una preocupación importante en la IA, ya que los modelos de IA suelen requerir grandes cantidades de datos para su entrenamiento. 
+- La recopilación y el uso de datos personales pueden ser una invasión de la privacidad y puede exponer información personal de las personas a terceros sin su consentimiento.
+
+**Discriminación**
+- La IA puede ser susceptible a la discriminación, especialmente si los datos utilizados para entrenar los modelos están sesgados. 
+- Si un modelo de IA se entrena con datos sesgados, es posible que el modelo reproduzca el sesgo en sus resultados, lo que puede llevar a decisiones discriminatorias.
+
+**Transparencia**
+- La transparencia es otro problema ético en la IA, ya que los resultados de los modelos de IA pueden ser difíciles de entender. 
+- Si los resultados de un modelo de IA no son transparentes, es posible que no se pueda explicar por qué se tomó una decisión, lo que puede socavar la confianza en el modelo.
+
+**Responsabilidad**
+- La responsabilidad es otro problema ético en la IA, especialmente cuando se trata de decisiones importantes que afectan a las personas. 
+- Si un modelo de IA toma una decisión equivocada o perjudicial, es importante que haya una forma de responsabilizar a los responsables.
+
+**Conclusión**
+- La ética de los datos es un problema importante en la IA, 
+- Puede tener un impacto significativo en la privacidad, la discriminación, la transparencia y la responsabilidad. 
+- Es importante que se apliquen principios éticos sólidos a la recopilación, el análisis y el uso de datos en la IA para garantizar que la tecnología se utilice de manera justa y responsable.
+
+## Clase 26: Dilemas éticos en inteligencia artificial
+
+**Dilemas éticos en inteligencia artificial**
+- La inteligencia artificial (IA) se ha convertido en una herramienta poderosa y ampliamente utilizada en diversas industrias y campos, desde la salud hasta la seguridad nacional. 
+- Sin embargo, a medida que la IA se vuelve más sofisticada y omnipresente, surgen una serie de dilemas éticos que deben ser abordados. 
+
+**Sesgos y discriminación**
+- Los algoritmos de IA se entrenan con datos, y si esos datos contienen sesgos y discriminación, la IA también reflejará estos prejuicios. 
+- Por ejemplo, si un algoritmo de IA se entrena con datos históricos que contienen prejuicios raciales o de género, el algoritmo también puede mostrar estos prejuicios en sus decisiones. 
+- Esto puede llevar a decisiones injustas y discriminación, lo que puede ser perjudicial para los individuos y las comunidades afectadas.
+
+**Privacidad y seguridad**
+- La IA a menudo se utiliza para recopilar, almacenar y analizar grandes cantidades de datos personales. 
+- Si estos datos no se manejan adecuadamente, pueden poner en peligro la privacidad y seguridad de las personas. 
+- La falta de medidas de seguridad adecuadas o la recopilación de datos sin el consentimiento informado de las personas pueden conducir a la violación de los derechos de privacidad.
+
+**Responsabilidad y transparencia**
+- A medida que la IA se vuelve más sofisticada, se vuelve más difícil rastrear cómo se toman las decisiones y quién es responsable de esas decisiones. 
+- La falta de transparencia en el proceso de toma de decisiones puede llevar a la falta de responsabilidad, lo que puede ser peligroso para los individuos y la sociedad en general.
+
+**Creación de empleo y automatización**
+- La IA también puede tener un impacto significativo en el empleo, especialmente en aquellos trabajos que son susceptibles a la automatización. 
+- Si bien la automatización puede aumentar la eficiencia y reducir los costos, también puede llevar a la pérdida de empleos y a la creación de una brecha económica. 
+- Esto puede tener un impacto significativo en la sociedad, especialmente en aquellos que ya enfrentan desigualdades económicas y sociales.
+
+**Conclusiones**
+- La IA es una herramienta poderosa que puede tener un impacto significativo en la sociedad. 
+- Sin embargo, también puede plantear una serie de dilemas éticos que deben abordarse. 
+- La eliminación de los sesgos y la discriminación, la protección de la privacidad y la seguridad de los datos personales, la transparencia y la responsabilidad en la toma de decisiones, y el impacto en el empleo y la economía son solo algunos de los dilemas éticos que deben considerarse al implementar la IA. Es importante abordar estos dilemas éticos de manera proactiva y responsable para asegurar que la IA se use de manera justa y ética.
+
+## Clase 27: Data4Good 
+
+**¿Qué es Data4Good?**
+- Data4Good es un término que se utiliza para referirse a la utilización de datos con fines sociales y de beneficio público. 
+- Se trata de un enfoque que utiliza datos y tecnología para resolver problemas sociales, ambientales y económicos, y mejorar la vida de las personas.
+
+**La importancia del Data4Good**
+- El Data4Good es una herramienta poderosa que puede ayudar a abordar algunos de los mayores desafíos que enfrenta la sociedad actualmente. 
+- A través de la recopilación, análisis y uso de datos, se pueden encontrar soluciones innovadoras a problemas complejos, como la pobreza, el cambio climático, la desigualdad, la salud y la educación.
+
+**Ejemplos de Data4Good**
+	- **Algunos ejemplos de proyectos de Data4Good incluyen:**
+		- El análisis de datos climáticos para predecir y mitigar los efectos del cambio climático.
+		- La utilización de la inteligencia artificial y el aprendizaje automático para mejorar la atención médica y prevenir enfermedades.
+		- El uso de datos para mejorar la calidad de la educación y la toma de decisiones educativas.
+		- La aplicación de datos para prevenir la violencia y el crimen en las ciudades.
+
+**Ética en Data4Good**
+- Es importante destacar que, aunque el Data4Good tiene como objetivo mejorar la vida de las personas, también puede plantear desafíos éticos y de privacidad de los datos. 
+- Por esta razón, es fundamental que cualquier proyecto de Data4Good se realice con transparencia, responsabilidad y respeto a los derechos humanos y la privacidad de los datos.
+
+> Piensa en crear una aplicación que te guste mucho y que consideres que este haciendo un cambio social a partir de los datos, que sea un ejemplo o un referente para ti en Data for Good. 
+
+Conclusion
+En resumen, Data4Good es una herramienta poderosa para abordar problemas sociales y mejorar la vida de las personas. Sin embargo, es importante tener en cuenta que cualquier proyecto de Data4Good debe abordar los desafíos éticos y de privacidad de los datos para garantizar que se utilice de manera responsable y con el respeto adecuado por las personas y sus derechos.
+
+## Clase 28: ¿Qué nos depara el futuro con IA?
+
+
+**La responsabilidad en el futuro de la IA**
+- La Inteligencia Artificial (IA) ha experimentado un gran avance en los últimos años y su impacto en la sociedad es cada vez más evidente. 
+- A medida que se desarrollan nuevas tecnologías, es importante tener en cuenta la responsabilidad que se tiene en su uso y el impacto que esto puede tener en la sociedad.
+
+**La tercera revolución industrial**
+- El avance de la IA ha sido comparado con la tercera revolución industrial, ya que se espera que tenga un impacto tan grande en la sociedad como lo tuvieron la primera y la segunda revolución industrial. 
+- La IA tiene el potencial de transformar la forma en que trabajamos, vivimos y nos relacionamos entre nosotros.
+
+**Responsabilidad en el uso de la IA**
+- Es importante tener en cuenta que la IA no es una herramienta neutral, sino que puede ser utilizada de formas positivas y negativas. Por lo tanto, es fundamental que la comunidad científica, las empresas y los gobiernos trabajen juntos para establecer políticas y regulaciones éticas que guíen su uso.
+
+**Ética y transparencia en la IA**
+- La ética y la transparencia en el uso de la IA son elementos clave para garantizar que se utilice de manera responsable. 
+- La comunidad científica y las empresas deben trabajar para desarrollar sistemas de IA éticos y transparentes que garanticen la privacidad y seguridad de los datos, la no discriminación y la responsabilidad en caso de errores.
+
+**Educación y formación**
+- La educación y la formación son fundamentales para garantizar que la IA se utilice de manera responsable. 
+- Es necesario que los estudiantes de hoy en día estén preparados para trabajar con la IA y entiendan su impacto en la sociedad.
+
+**Conclusiones**
+- En conclusión, el futuro de la IA está en nuestras manos y es nuestra responsabilidad asegurarnos de que se utilice de manera responsable y ética. La tercera revolución industrial ya está aquí y su impacto en la sociedad será cada vez más evidente en los próximos años. Es importante trabajar juntos para establecer políticas y regulaciones éticas y garantizar la privacidad y seguridad de los datos, la no
+
+## Clase 29: Reflexiones y cierre
